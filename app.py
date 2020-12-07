@@ -43,19 +43,21 @@ currentPrice2 = "{:.2f}".format(currentPrice)
 print("Current price: ", currentPrice)
 
 # Configure the Discord webhook URL and post data
-webhookUrl = 'https://discord.com/api/webhooks/785446655892652082/anHVQySSew6byzPblkqp1gyOwsTM8e9w4rnLSNZ4SdZxWrQ7LTBfZIUnhh9TIVkhUvVC'
-priceHigh = { "content": "Power price is above 20c/kWh!\n\nCurrent price is: " + currentPrice2 + "c/kWh\n\n@everyone" }
-priceLow = { "content": "Power price is below 10c/kWh!\n\nCurrent price is: " + currentPrice2 + "c/kWh\n\n@everyone" }
+webhookUrl = os.environ.get('DISCORD_WH_URL')
+priceHigh = float(os.environ.get('PRICE_HIGH'))
+priceLow = float(os.environ.get('PRICE_LOW'))
+priceHighMsg = { "content": "Power price is above " + str(priceHigh) + "c/kWh!\n\nCurrent price is: " + currentPrice2 + "c/kWh.\nPrice current as of :" + period + ".\n\n@everyone" }
+priceLowMsg = { "content": "Power price is below " + str(priceLow) + "c/kWh!\n\nCurrent price is: " + currentPrice2 + "c/kWh.\nPrice current as of :" + period + ".\n\n@everyone" }
 
 # High price alert
-if currentPrice > 20:
-    if lastPrice <= 20:
-        requests.post(webhookUrl, data=priceHigh)
+if currentPrice > priceHigh:
+    if lastPrice <= priceHigh:
+        requests.post(webhookUrl, data=priceHighMsg)
 
 # Low price alert
-if currentPrice < 10:
-    if lastPrice >= 10:
-        requests.post(webhookUrl, data=priceLow)
+if currentPrice < priceLow:
+    if lastPrice >= priceLow:
+        requests.post(webhookUrl, data=priceLowMsg)
 
 # Write the current price to the pickle file
 with open('lastprice.pkl', 'wb') as file:
