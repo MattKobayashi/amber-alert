@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+    amber-alert:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: amber-alert
+        container_name: amber-alert
+        restart: unless-stopped
+        environment:
+          - "TZ=Australia/Brisbane"
+          - "POSTCODE="
+          - "DISCORD_WH_URL="
+          - "PRICE_HIGH=20"
+          - "PRICE_LOW=10"
