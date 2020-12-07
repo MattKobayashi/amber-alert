@@ -12,6 +12,7 @@ RUN chmod 0644 /etc/cron.d/amber-cron \
     && apk add --no-cache tzdata
 
 ENV TZ=Australia/Brisbane
+ENV POSTCODE=
 ENV DISCORD_WH_URL=
 ENV PRICE_HIGH=20
 ENV PRICE_LOW=10

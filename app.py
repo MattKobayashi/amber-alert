@@ -23,7 +23,7 @@ print("Last price: ", lastPrice)
 apiUrl = 'https://api.amberelectric.com.au/prices/listprices'
 
 # Get current price data from the API and parse the JSON
-apiResponse = requests.post(apiUrl, json={ "postcode": "4066" })
+apiResponse = requests.post(apiUrl, json={ "postcode": str(os.environ.get('POSTCODE')) })
 priceData = json.loads(apiResponse.text)
 
 # Get the fixed and variable prices into variables
