@@ -43,11 +43,11 @@ currentPrice2 = "{:.2f}".format(currentPrice)
 print("Current price: ", currentPrice)
 
 # Configure the Discord webhook URL and post data
-webhookUrl = os.environ.get('DISCORD_WH_URL')
+webhookUrl = str(os.environ.get('DISCORD_WH_URL'))
 priceHigh = float(os.environ.get('PRICE_HIGH'))
 priceLow = float(os.environ.get('PRICE_LOW'))
-priceHighMsg = { "content": "Power price is above " + str(priceHigh) + "c/kWh!\n\nCurrent price is: " + currentPrice2 + "c/kWh.\nPrice current as of :" + period + ".\n\n@everyone" }
-priceLowMsg = { "content": "Power price is below " + str(priceLow) + "c/kWh!\n\nCurrent price is: " + currentPrice2 + "c/kWh.\nPrice current as of :" + period + ".\n\n@everyone" }
+priceHighMsg = { "content": "Power price is above " + str(priceHigh) + "c/kWh!\n\nCurrent price is: " + currentPrice2 + "c/kWh.\nPrice current as of: " + period + ".\n\n@everyone" }
+priceLowMsg = { "content": "Power price is below " + str(priceLow) + "c/kWh!\n\nCurrent price is: " + currentPrice2 + "c/kWh.\nPrice current as of: " + period + ".\n\n@everyone" }
 
 # High price alert
 if currentPrice > priceHigh:
