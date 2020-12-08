@@ -61,7 +61,7 @@ if currentPrice < priceLow:
         requests.post(webhookUrl, data=priceLowMsg)
 
 # Return to normal alert
-if currentPrice > priceLow and currentPrice < priceHigh:
+if currentPrice >= priceLow and currentPrice <= priceHigh:
     if lastPrice < priceLow or lastPrice > priceHigh:
         requests.post(webhookUrl, data=priceNormalMsg)
 
