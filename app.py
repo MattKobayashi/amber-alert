@@ -46,8 +46,9 @@ print("Current price: ", currentPrice)
 webhookUrl = str(os.environ.get('DISCORD_WH_URL'))
 priceHigh = float(os.environ.get('PRICE_HIGH'))
 priceLow = float(os.environ.get('PRICE_LOW'))
-priceHighMsg = { "content": "Power price is above " + str(priceHigh) + "c/kWh!\n\nCurrent price is: " + currentPrice2 + "c/kWh.\nPrice current as of: " + period + ".\n\n@everyone" }
-priceLowMsg = { "content": "Power price is below " + str(priceLow) + "c/kWh!\n\nCurrent price is: " + currentPrice2 + "c/kWh.\nPrice current as of: " + period + ".\n\n@everyone" }
+priceHighMsg = { "content": "Power price is above " + str(priceHigh) + "c/kWh!\n\nCurrent price is: " + currentPrice2 + "c/kWh.\n\n@everyone" }
+priceLowMsg = { "content": "Power price is below " + str(priceLow) + "c/kWh!\n\nCurrent price is: " + currentPrice2 + "c/kWh.\n\n@everyone" }
+priceNormalMsg = { "content": "Power prices have returned to normal.\n\nCurrent price is: " + currentPrice2 + "c/kWh.\n\n@everyone"}
 
 # High price alert
 if currentPrice > priceHigh:
@@ -58,6 +59,11 @@ if currentPrice > priceHigh:
 if currentPrice < priceLow:
     if lastPrice >= priceLow:
         requests.post(webhookUrl, data=priceLowMsg)
+
+# Return to normal alert
+if currentPrice > priceLow and currentPrice < priceHigh:
+    if lastPrice < priceLow or lastPrice > priceHigh:
+        requests.post(webhookUrl, data=priceNormalMsg)
 
 # Write the current price to the pickle file
 with open('lastprice.pkl', 'wb') as file:
