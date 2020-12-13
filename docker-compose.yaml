@@ -9,8 +9,16 @@ services:
         container_name: amber-alert
         restart: unless-stopped
         environment:
-          - "TZ=Australia/Brisbane"
-          - "POSTCODE="
-          - "DISCORD_WH_URL="
-          - "PRICE_HIGH=20"
-          - "PRICE_LOW=10"
+            - "TZ=Australia/Brisbane"
+            - "POSTCODE="
+            - "DISCORD_WH_URL="
+            - "PRICE_HIGH=20"
+            - "PRICE_LOW=10"
+        volumes:
+            - type: bind
+              source: amber-alert_data
+              target: /opt/amber/data
+
+volumes:
+    amber-alert_data:
+        name: amber-alert_data

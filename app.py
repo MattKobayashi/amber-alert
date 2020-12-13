@@ -5,14 +5,14 @@ import os
 from time import strftime, localtime
 
 # Create pickle file if it doesn't already exist
-if not os.path.isfile('lastprice.pkl'):
+if not os.path.isfile('data/lastprice.pkl'):
     blankPrice = 0
-    with open('lastprice.pkl', 'wb') as file:
+    with open('data/lastprice.pkl', 'wb') as file:
         pickle.dump(blankPrice, file)
         file.close()
 
 # Read last price from pickle file
-with open('lastprice.pkl', 'rb') as file:
+with open('data/lastprice.pkl', 'rb') as file:
     lastPrice = pickle.load(file)
     file.close()
 
@@ -72,7 +72,7 @@ if currentPrice < 0:
         requests.post(webhookUrl, data=priceNegMsg)
 
 # Write the current price to the pickle file
-with open('lastprice.pkl', 'wb') as file:
+with open('data/lastprice.pkl', 'wb') as file:
     pickle.dump(currentPrice, file)
     file.close()
 
