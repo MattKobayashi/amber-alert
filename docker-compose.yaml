@@ -15,7 +15,7 @@ services:
             - "PRICE_HIGH=20"
             - "PRICE_LOW=10"
         volumes:
-            - type: bind
+            - type: volume
               source: amber-alert_data
               target: /opt/amber/data
 
