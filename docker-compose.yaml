@@ -9,7 +9,7 @@ services:
         container_name: amber-alert
         restart: unless-stopped
         environment:
-            - "TZ=Australia/Brisbane"
+            - "TZ=UTC"
             - "POSTCODE="
             - "DISCORD_WH_URL="
             - "PRICE_HIGH=20"

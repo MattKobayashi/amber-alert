@@ -2,22 +2,36 @@ FROM python:3.9-alpine3.12
 
 WORKDIR /opt/amber
 
-COPY amber-cron /etc/cron.d/amber-cron
-COPY app.py app.py
+ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.1.12/supercronic-linux-amd64 \
+    SUPERCRONIC=supercronic-linux-amd64 \
+    SUPERCRONIC_SHA1SUM=048b95b48b708983effb2e5c935a1ef8483d9e3e
 
-RUN chmod 0644 /etc/cron.d/amber-cron \
-    && crontab /etc/cron.d/amber-cron \
-    && touch /var/log/cron.log \
-    && mkdir data \
-    && pip install requests \
+RUN wget "$SUPERCRONIC_URL" \
+    && echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - \
+    && chmod +x "$SUPERCRONIC" \
+    && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
+    && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic \
+    && addgroup -S amber && adduser -S amber -G amber \
+    && mkdir -p data \
+    && chown amber:amber data \
     && apk add --no-cache tzdata
 
-ENV TZ=Australia/Brisbane
-ENV POSTCODE=
-ENV DISCORD_WH_URL=
-ENV PRICE_HIGH=20
-ENV PRICE_LOW=10
+USER amber
+
+COPY amber-cron ./crontab/amber-cron
+COPY app.py app.py
+COPY requirements.txt requirements.txt
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+ENV TZ=UTC \
+    POSTCODE= \
+    DISCORD_WH_URL= \
+    PRICE_HIGH=20 \
+    PRICE_LOW=10
 
 VOLUME ["/opt/amber/data"]
 
-ENTRYPOINT ["crond", "-f"]
+ENTRYPOINT ["supercronic", "./crontab/amber-cron"]
+
+LABEL maintainer="matthew@thompsons.id.au"

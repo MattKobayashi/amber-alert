@@ -4,9 +4,6 @@ import pickle
 import os
 from time import strftime, localtime
 
-# Set the working directory for Python
-os.chdir('/opt/amber')
-
 # Create pickle file if it doesn't already exist
 if not os.path.isfile('data/lastprice.pkl'):
     blankPrice = 0
