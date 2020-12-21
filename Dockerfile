@@ -14,6 +14,7 @@ RUN wget "$SUPERCRONIC_URL" \
     && addgroup -S amber && adduser -S amber -G amber \
     && mkdir -p data \
     && chown amber:amber data \
+    && apk --no-cache upgrade \
     && apk add --no-cache tzdata
 
 USER amber
