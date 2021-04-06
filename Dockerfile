@@ -27,7 +27,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 ENV TZ=UTC \
     POSTCODE= \
-    DISCORD_WH_URL= \
+    WEBHOOK_URL= \
     PRICE_HIGH=20 \
     PRICE_LOW=10
 

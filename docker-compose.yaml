@@ -11,7 +11,7 @@ services:
         environment:
             - "TZ=UTC"
             - "POSTCODE="
-            - "DISCORD_WH_URL="
+            - "WEBHOOK_URL="
             - "PRICE_HIGH=20"
             - "PRICE_LOW=10"
         volumes:

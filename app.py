@@ -42,8 +42,8 @@ currentPrice2 = "{:.2f}".format(currentPrice)
 # Print the current price
 print("Current price: ", currentPrice)
 
-# Configure the Discord webhook URL and post data
-webhookUrl = str(os.environ.get('DISCORD_WH_URL'))
+# Configure the webhook URL and post data
+webhookUrl = str(os.environ.get('WEBHOOK_URL'))
 priceHigh = float(os.environ.get('PRICE_HIGH'))
 priceLow = float(os.environ.get('PRICE_LOW'))
 priceHighMsg = { "content": "Power price is above " + str(priceHigh) + "c/kWh!\n\nCurrent price is: " + currentPrice2 + "c/kWh.\n\n@everyone" }
