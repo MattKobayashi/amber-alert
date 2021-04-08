@@ -52,24 +52,20 @@ priceNormalMsg = { "content": "Power prices have returned to normal.\n\nCurrent 
 priceNegMsg = { "content": "Power prices are negative!\n\nCurrent price is: " + currentPrice2 + "c/kWh.\n\n@everyone" }
 
 # High price alert
-if currentPrice > priceHigh:
-    if lastPrice <= priceHigh:
-        requests.post(webhookUrl, data=priceHighMsg)
+if currentPrice > priceHigh and lastPrice <= priceHigh:
+    requests.post(webhookUrl, data=priceHighMsg)
 
 # Low price alert
-if currentPrice < priceLow:
-    if lastPrice >= priceLow:
-        requests.post(webhookUrl, data=priceLowMsg)
+if currentPrice < priceLow and currentPrice >= 0 and lastPrice >= priceLow:
+    requests.post(webhookUrl, data=priceLowMsg)
 
 # Return to normal alert
-if currentPrice >= priceLow and currentPrice <= priceHigh:
-    if lastPrice < priceLow or lastPrice > priceHigh:
-        requests.post(webhookUrl, data=priceNormalMsg)
+if currentPrice >= priceLow and currentPrice <= priceHigh and (lastPrice < priceLow or lastPrice > priceHigh):
+    requests.post(webhookUrl, data=priceNormalMsg)
 
 # Negative price alert
-if currentPrice < 0:
-    if lastPrice >= 0:
-        requests.post(webhookUrl, data=priceNegMsg)
+if currentPrice < 0 and lastPrice >= 0:
+    requests.post(webhookUrl, data=priceNegMsg)
 
 # Write the current price to the pickle file
 with open('data/lastprice.pkl', 'wb') as file:
