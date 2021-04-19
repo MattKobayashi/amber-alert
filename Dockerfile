@@ -29,7 +29,8 @@ ENV TZ=UTC \
     POSTCODE= \
     WEBHOOK_URL= \
     PRICE_HIGH=20 \
-    PRICE_LOW=10
+    PRICE_LOW=10 \
+    PRICE_TYPE=30
 
 VOLUME ["/opt/amber/data"]
 
