@@ -1,119 +1,107 @@
 import requests
 import json
-import pickle
 import os
 from datetime import datetime
 from statistics import mean
 
-# Create 5-min price pickle file if it doesn't already exist
-if not os.path.isfile('data/lastprice5.pkl'):
-    blankPrice = 0
-    with open('data/lastprice5.pkl', 'wb') as file:
-        pickle.dump(blankPrice, file)
+# Create price data JSON file if it doesn't already exist
+if not os.path.isfile("data/priceData.json"):
+    blankPrice = {"lastPrices":{"5min":0,"30min":0,},"currentPrices":{"5min":0,"30min":0,},"priceHistory":{"00":0,"05":0,"10":0,"15":0,"20":0,"25":0,},}
+    with open("data/priceData.json", "w") as file:
+        json.dump(blankPrice, file)
         file.close()
 
-# Create 30-min price pickle file if it doesn't already exist
-if not os.path.isfile('data/lastprice30.pkl'):
-    with open('data/lastprice30.pkl', 'wb') as file:
-        pickle.dump(blankPrice, file)
-        file.close()
-
-# Create 30-min price list pickle file if it doesn't already exist
-if not os.path.isfile('data/pricelist30.pkl'):
-    blankPriceList = [None, None, None, None, None, None]
-    with open('data/pricelist30.pkl', 'wb') as file:
-        pickle.dump(blankPriceList, file)
-        file.close()
-
-# Read last 5-min price from pickle file
-with open('data/lastprice5.pkl', 'rb') as file:
-    lastPrice5 = pickle.load(file)
-    file.close()
-
-# Read last 30-min price from pickle file
-with open('data/lastprice30.pkl', 'rb') as file:
-    lastPrice30 = pickle.load(file)
-    file.close()
-
-# Read last 30-min price list from pickle file
-with open('data/pricelist30.pkl', 'rb') as file:
-    prices5Min = pickle.load(file)
+# Read price data from JSON file
+with open("data/priceData.json", "r") as file:
+    priceDataFile = json.load(file)
     file.close()
 
 # Get the current datetime
 now = datetime.now()
 
 # Print last prices
-print("Last 5-min price:", lastPrice5)
-print("Last 30-min price:", lastPrice30)
+print("Last 5-min price:", priceDataFile['lastPrices']['5min'])
+print("Last 30-min price:", priceDataFile['lastPrices']['30min'])
 
 # Set the URL for the Amber Electric API
-apiUrl = 'https://api.amberelectric.com.au/prices/listprices'
+apiURL = 'https://api.amberelectric.com.au/prices/listprices'
 
 # Get current price data from the API and parse the JSON
-apiResponse = requests.post(apiUrl, json={ "postcode": str(os.environ.get('POSTCODE')) })
-priceData = json.loads(apiResponse.text)
+apiResponse = requests.post(apiURL, json={ "postcode": str(os.environ.get('POSTCODE')) })
+priceDataAPI = json.loads(apiResponse.text)
 
 # Get the fixed and variable prices into variables
-fixedPrice = float(priceData['data']['staticPrices']['E1']['totalfixedKWHPrice'])
-lossFactor = float(priceData['data']['staticPrices']['E1']['lossFactor'])
-wholesalePrice = float(priceData['data']['variablePricesAndRenewables'][48]['wholesaleKWHPrice'])
-period = str(priceData['data']['variablePricesAndRenewables'][48]['period'])
+fixedPrice = float(priceDataAPI['data']['staticPrices']['E1']['totalfixedKWHPrice'])
+lossFactor = float(priceDataAPI['data']['staticPrices']['E1']['lossFactor'])
+wholesalePrice = float(priceDataAPI['data']['variablePricesAndRenewables'][48]['wholesaleKWHPrice'])
+period = str(priceDataAPI['data']['variablePricesAndRenewables'][48]['period'])
 
 # Calculate the current 5-min price based on the fixed and variable prices
-currentPrice5 = fixedPrice + lossFactor * wholesalePrice
+priceDataFile['currentPrices']['5min'] = fixedPrice + lossFactor * wholesalePrice
 
 # Round currentPrice to 2 sig. digits
-currentPrice5Rnd = "{:.2f}".format(currentPrice5)
+currentPrice5Rnd = "{:.2f}".format(priceDataFile['currentPrices']['5min'])
 
 # Print the API period
 print("API period:", period)
 
 # Print the current price
-print("Current 5-min price:", currentPrice5)
+print("Current 5-min price:", priceDataFile['currentPrices']['5min'])
 
 # Populate 30-min price list
 if (now.minute >= 0 and now.minute < 5) or (now.minute >= 30 and now.minute < 35):
-    prices5Min = [None, None, None, None, None, None]
-    prices5Min[0] = currentPrice5
+    priceDataFile['priceHistory']['00'] = 0
+    priceDataFile['priceHistory']['05'] = 0
+    priceDataFile['priceHistory']['10'] = 0
+    priceDataFile['priceHistory']['15'] = 0
+    priceDataFile['priceHistory']['20'] = 0
+    priceDataFile['priceHistory']['25'] = 0
+    priceDataFile['priceHistory']['00'] = priceDataFile['currentPrices']['5min']
 
 if (now.minute >= 5 and now.minute < 10) or (now.minute >= 35 and now.minute < 40):
-    prices5Min[1] = currentPrice5
+    priceDataFile['priceHistory']['05'] = priceDataFile['currentPrices']['5min']
 
 if (now.minute >= 10 and now.minute < 15) or (now.minute >= 40 and now.minute < 45):
-    prices5Min[2] = currentPrice5
+    priceDataFile['priceHistory']['10'] = priceDataFile['currentPrices']['5min']
 
 if (now.minute >= 15 and now.minute < 20) or (now.minute >= 45 and now.minute < 50):
-    prices5Min[3] = currentPrice5
+    priceDataFile['priceHistory']['15'] = priceDataFile['currentPrices']['5min']
 
 if (now.minute >= 20 and now.minute < 25) or (now.minute >= 50 and now.minute < 55):
-    prices5Min[4] = currentPrice5
+    priceDataFile['priceHistory']['20'] = priceDataFile['currentPrices']['5min']
 
 if (now.minute >= 25 and now.minute < 30) or (now.minute >= 55 and now.minute < 59):
-    prices5Min[5] = currentPrice5
+    priceDataFile['priceHistory']['25'] = priceDataFile['currentPrices']['5min']
 
 # Print the 30-min price list
-print("Current 30-min price list:", prices5Min)
+print("Current 30-min price list:", priceDataFile['priceHistory'])
 
-# Extract non-None values from 5-min price list
+# Extract values from 30-min price history
+priceHistoryRaw = list(map(float, priceDataFile['priceHistory'].values()))
+
+# Extract non-zero values from raw price history
 pricesMeanList = []
-for val in prices5Min:
-    if val != None:
+for val in priceHistoryRaw:
+    if val != 0:
         pricesMeanList.append(val)
 
 # Calculate the current mean 30-min price
-currentPrice30 = mean(pricesMeanList)
+try:
+    priceDataFile['currentPrices']['30min'] = mean(pricesMeanList)
+except:
+    print("Can't calculate a mean 30-min price, is this the first time the script has run?")
+    priceDataFile['currentPrices']['30min'] = 0
 
 # Print the current mean 30-min price
-print("Current average 30-min price:", currentPrice30)
+print("Current average 30-min price:", priceDataFile['currentPrices']['30min'])
 
 # Round currentPrice30 to 2 sig. digits
-currentPrice30Rnd = "{:.2f}".format(currentPrice30)
+currentPrice30Rnd = "{:.2f}".format(priceDataFile['currentPrices']['30min'])
 
 # Define the 5-min alerts function
 def alerts5Min():
     # Configure the webhook URL and post data
-    webhookUrl = str(os.environ.get('WEBHOOK_URL'))
+    webhookURL = str(os.environ.get('WEBHOOK_URL'))
     priceHigh = float(os.environ.get('PRICE_HIGH'))
     priceLow = float(os.environ.get('PRICE_LOW'))
     priceHighMsg = { "content": "Power price is above " + str(priceHigh) + "c/kWh!\n\nCurrent price is: " + currentPrice5Rnd + "c/kWh.\n\n@everyone" }
@@ -122,25 +110,25 @@ def alerts5Min():
     priceNegMsg = { "content": "Power prices are negative!\n\nCurrent price is: " + currentPrice5Rnd + "c/kWh.\n\n@everyone" }
 
     # High price alert
-    if currentPrice5 > priceHigh and lastPrice5 <= priceHigh:
-        requests.post(webhookUrl, data=priceHighMsg)
+    if priceDataFile['currentPrices']['5min'] > priceHigh and priceDataFile['lastPrices']['5min'] <= priceHigh:
+        requests.post(webhookURL, data=priceHighMsg)
 
     # Low price alert
-    if currentPrice5 < priceLow and currentPrice5 >= 0 and lastPrice5 >= priceLow:
-        requests.post(webhookUrl, data=priceLowMsg)
+    if priceDataFile['currentPrices']['5min'] < priceLow and priceDataFile['currentPrices']['5min'] >= 0 and priceDataFile['lastPrices']['5min'] >= priceLow:
+        requests.post(webhookURL, data=priceLowMsg)
 
     # Return to normal alert
-    if currentPrice5 >= priceLow and currentPrice5 <= priceHigh and (lastPrice5 < priceLow or lastPrice5 > priceHigh):
-        requests.post(webhookUrl, data=priceNormalMsg)
+    if priceDataFile['currentPrices']['5min'] >= priceLow and priceDataFile['currentPrices']['5min'] <= priceHigh and (priceDataFile['lastPrices']['5min'] < priceLow or priceDataFile['lastPrices']['5min'] > priceHigh):
+        requests.post(webhookURL, data=priceNormalMsg)
 
     # Negative price alert
-    if currentPrice5 < 0 and lastPrice5 >= 0:
-        requests.post(webhookUrl, data=priceNegMsg)
+    if priceDataFile['currentPrices']['5min'] < 0 and priceDataFile['lastPrices']['5min'] >= 0:
+        requests.post(webhookURL, data=priceNegMsg)
 
 # Define the 30-min alerts function
 def alerts30Min():
     # Configure the webhook URL and post data
-    webhookUrl = str(os.environ.get('WEBHOOK_URL'))
+    webhookURL = str(os.environ.get('WEBHOOK_URL'))
     priceHigh = float(os.environ.get('PRICE_HIGH'))
     priceLow = float(os.environ.get('PRICE_LOW'))
     priceHighMsg = { "content": "Power price is above " + str(priceHigh) + "c/kWh!\n\nCurrent price is: " + currentPrice30Rnd + "c/kWh.\n\n@everyone" }
@@ -149,20 +137,20 @@ def alerts30Min():
     priceNegMsg = { "content": "Power prices are negative!\n\nCurrent price is: " + currentPrice30Rnd + "c/kWh.\n\n@everyone" }
 
     # High price alert
-    if currentPrice30 > priceHigh and lastPrice30 <= priceHigh:
-        requests.post(webhookUrl, data=priceHighMsg)
+    if priceDataFile['currentPrices']['30min'] > priceHigh and priceDataFile['lastPrices']['30min'] <= priceHigh:
+        requests.post(webhookURL, data=priceHighMsg)
 
     # Low price alert
-    if currentPrice30 < priceLow and currentPrice30 >= 0 and lastPrice30 >= priceLow:
-        requests.post(webhookUrl, data=priceLowMsg)
+    if priceDataFile['currentPrices']['30min'] < priceLow and priceDataFile['currentPrices']['30min'] >= 0 and priceDataFile['lastPrices']['30min'] >= priceLow:
+        requests.post(webhookURL, data=priceLowMsg)
 
     # Return to normal alert
-    if currentPrice30 >= priceLow and currentPrice30 <= priceHigh and (lastPrice30 < priceLow or lastPrice30 > priceHigh):
-        requests.post(webhookUrl, data=priceNormalMsg)
+    if priceDataFile['currentPrices']['30min'] >= priceLow and priceDataFile['currentPrices']['30min'] <= priceHigh and (priceDataFile['lastPrices']['30min'] < priceLow or priceDataFile['lastPrices']['30min'] > priceHigh):
+        requests.post(webhookURL, data=priceNormalMsg)
 
     # Negative price alert
-    if currentPrice30 < 0 and lastPrice30 >= 0:
-        requests.post(webhookUrl, data=priceNegMsg)
+    if priceDataFile['currentPrices']['30min'] < 0 and priceDataFile['lastPrices']['30min'] >= 0:
+        requests.post(webhookURL, data=priceNegMsg)
 
 # Call the relevant function for 5-min or 30-min price alerts
 if os.environ.get('PRICE_TYPE') == "5":
@@ -172,19 +160,13 @@ elif os.environ.get('PRICE_TYPE') == "30":
 else:
     exit("An incorrect price type has been entered. Please check the value for PRICE_TYPE environment variable and try again.")
 
-# Write the current 5-min price to the pickle file
-with open('data/lastprice5.pkl', 'wb') as file:
-    pickle.dump(currentPrice5, file)
-    file.close()
+# Update the last prices to match the current ones
+priceDataFile['lastPrices']['5min'] = priceDataFile['currentPrices']['5min']
+priceDataFile['lastPrices']['30min'] = priceDataFile['currentPrices']['30min']
 
-# Write the current 30-min price to a pickle file
-with open('data/lastprice30.pkl', 'wb') as file:
-    pickle.dump(currentPrice30, file)
-    file.close()
-
-# Write the 30-min price list to the pickle file
-with open('data/pricelist30.pkl', 'wb') as file:
-    pickle.dump(prices5Min, file)
+# Write updated price data to the JSON file
+with open('data/priceData.json', 'w') as file:
+    json.dump(priceDataFile, file)
     file.close()
 
 # Print script completion to log
