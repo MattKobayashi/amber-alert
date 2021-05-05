@@ -24,10 +24,10 @@ print("Last 5-min price:", priceDataFile['lastPrices']['5min'])
 print("Last 30-min price:", priceDataFile['lastPrices']['30min'])
 
 # Set the URL for the Amber Electric API
-apiUrl = 'https://api.amberelectric.com.au/prices/listprices'
+apiURL = 'https://api.amberelectric.com.au/prices/listprices'
 
 # Get current price data from the API and parse the JSON
-apiResponse = requests.post(apiUrl, json={ "postcode": str(os.environ.get('POSTCODE')) })
+apiResponse = requests.post(apiURL, json={ "postcode": str(os.environ.get('POSTCODE')) })
 priceDataAPI = json.loads(apiResponse.text)
 
 # Get the fixed and variable prices into variables
@@ -101,7 +101,7 @@ currentPrice30Rnd = "{:.2f}".format(priceDataFile['currentPrices']['30min'])
 # Define the 5-min alerts function
 def alerts5Min():
     # Configure the webhook URL and post data
-    webhookUrl = str(os.environ.get('WEBHOOK_URL'))
+    webhookURL = str(os.environ.get('WEBHOOK_URL'))
     priceHigh = float(os.environ.get('PRICE_HIGH'))
     priceLow = float(os.environ.get('PRICE_LOW'))
     priceHighMsg = { "content": "Power price is above " + str(priceHigh) + "c/kWh!\n\nCurrent price is: " + currentPrice5Rnd + "c/kWh.\n\n@everyone" }
@@ -111,24 +111,24 @@ def alerts5Min():
 
     # High price alert
     if priceDataFile['currentPrices']['5min'] > priceHigh and priceDataFile['lastPrices']['5min'] <= priceHigh:
-        requests.post(webhookUrl, data=priceHighMsg)
+        requests.post(webhookURL, data=priceHighMsg)
 
     # Low price alert
     if priceDataFile['currentPrices']['5min'] < priceLow and priceDataFile['currentPrices']['5min'] >= 0 and priceDataFile['lastPrices']['5min'] >= priceLow:
-        requests.post(webhookUrl, data=priceLowMsg)
+        requests.post(webhookURL, data=priceLowMsg)
 
     # Return to normal alert
     if priceDataFile['currentPrices']['5min'] >= priceLow and priceDataFile['currentPrices']['5min'] <= priceHigh and (priceDataFile['lastPrices']['5min'] < priceLow or priceDataFile['lastPrices']['5min'] > priceHigh):
-        requests.post(webhookUrl, data=priceNormalMsg)
+        requests.post(webhookURL, data=priceNormalMsg)
 
     # Negative price alert
     if priceDataFile['currentPrices']['5min'] < 0 and priceDataFile['lastPrices']['5min'] >= 0:
-        requests.post(webhookUrl, data=priceNegMsg)
+        requests.post(webhookURL, data=priceNegMsg)
 
 # Define the 30-min alerts function
 def alerts30Min():
     # Configure the webhook URL and post data
-    webhookUrl = str(os.environ.get('WEBHOOK_URL'))
+    webhookURL = str(os.environ.get('WEBHOOK_URL'))
     priceHigh = float(os.environ.get('PRICE_HIGH'))
     priceLow = float(os.environ.get('PRICE_LOW'))
     priceHighMsg = { "content": "Power price is above " + str(priceHigh) + "c/kWh!\n\nCurrent price is: " + currentPrice30Rnd + "c/kWh.\n\n@everyone" }
@@ -138,19 +138,19 @@ def alerts30Min():
 
     # High price alert
     if priceDataFile['currentPrices']['30min'] > priceHigh and priceDataFile['lastPrices']['30min'] <= priceHigh:
-        requests.post(webhookUrl, data=priceHighMsg)
+        requests.post(webhookURL, data=priceHighMsg)
 
     # Low price alert
     if priceDataFile['currentPrices']['30min'] < priceLow and priceDataFile['currentPrices']['30min'] >= 0 and priceDataFile['lastPrices']['30min'] >= priceLow:
-        requests.post(webhookUrl, data=priceLowMsg)
+        requests.post(webhookURL, data=priceLowMsg)
 
     # Return to normal alert
     if priceDataFile['currentPrices']['30min'] >= priceLow and priceDataFile['currentPrices']['30min'] <= priceHigh and (priceDataFile['lastPrices']['30min'] < priceLow or priceDataFile['lastPrices']['30min'] > priceHigh):
-        requests.post(webhookUrl, data=priceNormalMsg)
+        requests.post(webhookURL, data=priceNormalMsg)
 
     # Negative price alert
     if priceDataFile['currentPrices']['30min'] < 0 and priceDataFile['lastPrices']['30min'] >= 0:
-        requests.post(webhookUrl, data=priceNegMsg)
+        requests.post(webhookURL, data=priceNegMsg)
 
 # Call the relevant function for 5-min or 30-min price alerts
 if os.environ.get('PRICE_TYPE') == "5":
