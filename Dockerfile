@@ -26,11 +26,12 @@ COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 ENV TZ=UTC \
-    POSTCODE= \
+    AMBER_API_KEY= \
+    AMBER_SITE_ID= \
     WEBHOOK_URL= \
-    PRICE_HIGH=20 \
-    PRICE_LOW=10 \
-    PRICE_TYPE=30
+    ALERT_HIGH=25 \
+    ALERT_LOW=10 \
+    DATA_RES=30
 
 VOLUME ["/opt/amber/data"]
 
