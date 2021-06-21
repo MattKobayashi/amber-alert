@@ -39,6 +39,7 @@ priceDataApi = json.loads(apiResponse.text)
 
 # Set variables
 currentPrice = float(priceDataApi[0]["perKwh"])
+currentPrice2 = "{:.2f}".format(currentPrice)
 lastPrice = float(priceDataFile["lastPrice"])
 
 # Print last price
@@ -50,24 +51,24 @@ alertHighMsg = {
     "content": "Power price is above "
     + str(alertHigh)
     + "c/kWh!\n\nCurrent price is: "
-    + str(currentPrice)
+    + str(currentPrice2)
     + "c/kWh.\n\n@everyone"
 }
 alertLowMsg = {
     "content": "Power price is below "
     + str(alertLow)
     + "c/kWh!\n\nCurrent price is: "
-    + str(currentPrice)
+    + str(currentPrice2)
     + "c/kWh.\n\n@everyone"
 }
 alertNormalMsg = {
     "content": "Power prices have returned to normal.\n\nCurrent price is: "
-    + str(currentPrice)
+    + str(currentPrice2)
     + "c/kWh.\n\n@everyone"
 }
 alertNegMsg = {
     "content": "Power prices are negative!\n\nCurrent price is: "
-    + str(currentPrice)
+    + str(currentPrice2)
     + "c/kWh.\n\n@everyone"
 }
 
