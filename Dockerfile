@@ -37,4 +37,4 @@ VOLUME ["/opt/amber/data"]
 
 ENTRYPOINT ["supercronic", "./crontab/amber-cron"]
 
-LABEL maintainer="matthew@thompsons.id.au"
+LABEL maintainer="matthew@kobayashi.com.au"
