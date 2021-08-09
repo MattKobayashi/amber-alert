@@ -1,8 +1,8 @@
 name: Publish to GHCR.io
 
 on:
-#  schedule:
-#    - cron: '17 5 * * *'
+  schedule:
+    - cron: '0 3 * * SAT'
   push:
     branches: [ main ]
     # Publish semver tags as releases.
