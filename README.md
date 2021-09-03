@@ -6,7 +6,7 @@ A webhook-based price alerter for Amber, an Australian electricity retailer that
 ```Shell
 docker build -t --name amber-alert .
 
-docker run -d --name amber-alert amber-alert
+docker run -d --name amber-alert amber-alert -e "AMBER_API_KEY=changeme" -e "AMBER_SITE_ID=changeme" -e "WEBHOOK_URL=changeme"
 ```
 
 You may also wish to use Docker Compose, an example Compose script can be found in this repo (docker-compose.yaml).
