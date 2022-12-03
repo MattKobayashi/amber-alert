@@ -16,7 +16,7 @@ env:
 
 
 jobs:
-  build:
+  build-amber-alert:
 
     runs-on: ubuntu-latest
     permissions:
@@ -24,12 +24,13 @@ jobs:
       packages: write
 
     steps:
-      # Create a lowercase version of the repository name
-      # (needed to push to GHCR.io)
-      - name: Lowercase repository name
+      # Gives two env variables
+      # One with lowercase repo owner's name
+      # Another with the name of the image
+      - name: Set image name
         run: |
-          echo "IMAGE_NAME=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
-
+          echo "REPO_NAME=${GITHUB_REPOSITORY_OWNER,,}" >> ${GITHUB_ENV} &&
+          echo "IMAGE_NAME=${GITHUB_JOB#*-}" >> ${GITHUB_ENV}
       - name: Checkout repository
         uses: actions/checkout@v2
 
@@ -37,7 +38,7 @@ jobs:
       # https://github.com/docker/login-action
       - name: Log into registry ${{ env.REGISTRY }}
         if: github.event_name != 'pull_request'
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -46,8 +47,8 @@ jobs:
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
       - name: Build and push Docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          tags: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:latest
