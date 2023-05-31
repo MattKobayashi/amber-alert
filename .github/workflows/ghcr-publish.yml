@@ -74,7 +74,5 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          push: |
-            ${{ github.event_name == 'push' }} ||
-            ${{ github.event_name == 'schedule' }}
+          push: ${{ github.event_name == 'push' || github.event_name == 'schedule' }}
           tags: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:latest
