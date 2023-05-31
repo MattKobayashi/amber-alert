@@ -3,11 +3,11 @@ FROM python:3-alpine
 WORKDIR /opt/amber
 
 ARG TARGETPLATFORM
-ENV SUPERCRONIC_SHA1SUM_amd64=6817299e04457e5d6ec4809c72ee13a43e95ba41 \
-    SUPERCRONIC_SHA1SUM_arm=fad9380ed30b9eae61a5b1089f93bd7ee8eb1a9c \
-    SUPERCRONIC_SHA1SUM_arm64=fce407a3d7d144120e97cfc0420f16a18f4637d9 \
-    SUPERCRONIC_SHA1SUM_i386=f1e1317fee6ebf610252c6ea77d8e44af67c93d6 \
-    SUPERCRONIC_VERSION=v0.2.24
+ENV SUPERCRONIC_SHA1SUM_amd64=642f4f5a2b67f3400b5ea71ff24f18c0a7d77d49 \
+    SUPERCRONIC_SHA1SUM_arm=4f625d77d2f9a790ea4ad679d0d2c318a14ec3be \
+    SUPERCRONIC_SHA1SUM_arm64=0b658d66bd54cf10aeccd9bdbd95fc7d9ba84a61 \
+    SUPERCRONIC_SHA1SUM_i386=1b5ebdd122b05cd2ff38b585022f1d909b0146ff \
+    SUPERCRONIC_VERSION=v0.2.25
 
 RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then ARCH=amd64; elif [ "$TARGETPLATFORM" = "linux/arm/v7" ]; then ARCH=arm; elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then ARCH=arm64; elif [ "$TARGETPLATFORM" = "linux/i386" ]; then ARCH=i386; else exit 1; fi \
     && export SUPERCRONIC="supercronic-linux-${ARCH}" \
@@ -15,7 +15,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then ARCH=amd64; elif [ "$TARGETPL
     && wget "$SUPERCRONIC_URL" \
     && eval SUPERCRONIC_SHA1SUM='$SUPERCRONIC_SHA1SUM_'$ARCH \
     && echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - \
-    && chmod +x "$SUPERCRONIC" \
+    && chmod +x "${SUPERCRONIC}" \
     && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
     && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic \
     && addgroup -S amber && adduser -S amber -G amber \
