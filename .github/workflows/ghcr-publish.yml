@@ -45,7 +45,7 @@ jobs:
         with:
           config-inline: |
             [registry."docker.io"]
-              mirrors = ["registry.kobayashi.au"]
+              mirrors = ["registry-mirror:5000"]
 
       # Gives two env variables
       # One with lowercase repo owner's name
