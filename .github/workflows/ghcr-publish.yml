@@ -46,6 +46,10 @@ jobs:
           config-inline: |
             [registry."docker.io"]
               mirrors = ["registry-mirror:5000"]
+            [registry."registry-mirror:5000"]
+              http = true
+          driver-opts: |
+            network=actions-runners
 
       # Gives two env variables
       # One with lowercase repo owner's name
