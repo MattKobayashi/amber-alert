@@ -1,4 +1,4 @@
-FROM python:3-alpine
+FROM python:3.12.6-alpine3.20
 
 WORKDIR /opt/amber
 
