@@ -17,8 +17,8 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-  create-runners:
-    name: 'Create self-hosted Actions runners'
+  create-runner:
+    name: 'Create self-hosted Actions runner'
     secrets: inherit
     strategy:
       fail-fast: false
@@ -32,6 +32,7 @@ jobs:
       workdir: /tmp/actions-runners/${{ matrix.runner-name }}
   build-amber-alert:
     runs-on: self-hosted
+    needs: [create-runner]
     permissions:
       contents: read
       packages: write
