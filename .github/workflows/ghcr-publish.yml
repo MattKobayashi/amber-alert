@@ -31,6 +31,7 @@ jobs:
       runner-name: ${{ matrix.runner-name }}
       workdir: /tmp/actions-runners/${{ matrix.runner-name }}
   build-amber-alert:
+    name: 'Build `amber-alert` container image'
     runs-on: self-hosted
     needs: [create-runner]
     permissions:
