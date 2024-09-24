@@ -92,14 +92,11 @@ jobs:
         with:
           load: true
           tags: "${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:test"
-      # Test image
-      - name: Start test container
+      # Test the built image
+      - name: Test image
         if: ${{ github.event_name == 'pull_request' }}
         run: |
-          docker container run --rm ${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:test
-      - name: Stop test container
-        if: ${{ github.event_name == 'pull_request' }}
-        run: |
+          docker container run --detach --rm ${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:test
           sleep 30
           docker container stop ${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:test
       # Build and push container image with Buildx (don't push on PR)
