@@ -95,11 +95,9 @@ jobs:
       # Test the built image
       - name: Test image
         if: ${{ github.event_name == 'pull_request' }}
-        env:
-          CONTAINER_ID: ""
         run: |
           set -ex
-          echo $(docker container run --detach --rm ${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:test) >> $CONTAINER_ID
+          CONTAINER_ID=$(docker container run --detach --rm ${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:test)
           sleep 30
           docker container stop $CONTAINER_ID
       # Build and push container image with Buildx (don't push on PR)
