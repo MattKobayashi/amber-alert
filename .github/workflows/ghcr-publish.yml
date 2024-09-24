@@ -18,7 +18,7 @@ env:
 
 jobs:
   create-runner:
-    name: 'Create self-hosted Actions runner'
+    name: Create self-hosted Actions runner
     secrets: inherit
     strategy:
       fail-fast: false
@@ -31,7 +31,7 @@ jobs:
       runner-name: ${{ matrix.runner-name }}
       workdir: /tmp/actions-runners/${{ matrix.runner-name }}
   build-amber-alert:
-    name: 'Build `amber-alert` container image'
+    name: Build container image
     runs-on: self-hosted
     needs: [create-runner]
     permissions:
@@ -93,10 +93,13 @@ jobs:
           load: true
           tags: "${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:test"
       # Test image
-      - name: Test
+      - name: Start test container
         if: ${{ github.event_name == 'pull_request' }}
         run: |
           docker container run --rm ${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:test
+      - name: Stop test container
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
           sleep 30
           docker container stop ${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:test
       # Build and push container image with Buildx (don't push on PR)
