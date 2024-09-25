@@ -17,8 +17,8 @@ jobs:
           amber-alert
         ]
     uses: ./.github/workflows/create-runner.yaml
-  build-amber-alert:
-    name: Build container image
+  build-test:
+    name: Build and test container image
     runs-on: self-hosted
     needs: [create-runner]
     permissions:
