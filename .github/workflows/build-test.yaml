@@ -63,4 +63,4 @@ jobs:
       - name: Test image
         run: |
           set -ex
-          timeout --kill-after=30s --preserve-status 30s docker container run --rm ${{ needs.build-setup.outputs.repo-owner }}/${{ matrix.container }}:test
+          timeout --kill-after=30s --preserve-status 30s docker container run --rm ${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:test
