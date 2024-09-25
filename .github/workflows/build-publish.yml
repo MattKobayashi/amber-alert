@@ -2,8 +2,6 @@
 name: Build and publish container image
 
 on:
-  schedule:
-    - cron: '0 3 * * SAT'
   push:
     branches: [main]
     # Publish semver tags as releases.
