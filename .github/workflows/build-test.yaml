@@ -6,6 +6,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+env:
+  REPO_NAME: mattkobayashi
+  IMAGE_NAME: amber-alert
+
 jobs:
   create-runner:
     name: Create self-hosted Actions runner
@@ -41,13 +45,6 @@ jobs:
               http = true
           driver-opts: |
             network=mattflix
-      # Gives two env variables
-      # One with lowercase repo owner's name
-      # Another with the name of the image
-      - name: Set image name
-        run: |
-          echo "REPO_NAME=${GITHUB_REPOSITORY_OWNER,,}" >> ${GITHUB_ENV} &&
-          echo "IMAGE_NAME=${GITHUB_JOB#*-}" >> ${GITHUB_ENV}
       # Checkout repository
       # https://github.com/actions/checkout
       - name: Checkout repository
