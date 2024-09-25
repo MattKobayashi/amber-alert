@@ -3,27 +3,20 @@ name: Create self-hosted runner
 
 on:
   workflow_call:
-    inputs:
-      runner-name:
-        required: true
-        type: string
-      workdir:
-        required: true
-        type: string
 
 jobs:
   create-runner:
-    name: 'Create runner'
+    name: Create runner
     runs-on: ubuntu-latest
     steps:
-      - name: 'Create ephemeral Tailscale node'
+      - name: Create ephemeral Tailscale node
         uses: tailscale/github-action@v2
         with:
           oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
           oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
           tags: tag:ci
           version: 1.74.1
-      - name: 'Update SSH known hosts'
+      - name: Update SSH known hosts
         env:
           SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
         run: |
@@ -34,10 +27,11 @@ jobs:
           $SSH_KNOWN_HOSTS
           EOF
           chmod 600 ~/.ssh/known_hosts
-      - name: 'Start ephemeral runner container'
+      - name: Start ephemeral runner container
         id: start-runner
         run: |
           set -ex
+          WORKDIR=/tmp/actions-runners/$(uuidgen)
           ssh matthew@100.102.37.118 docker container run \
             --cgroupns=private \
             --cgroup-parent=/mattflix/actions-runners \
@@ -48,8 +42,7 @@ jobs:
             --env=EPHEMERAL=true \
             --env=LABELS=linux,x64 \
             --env=REPO_URL=${{ github.server_url }}/${{ github.repository }} \
-            --env=RUNNER_NAME_PREFIX=${{ inputs.runner-name }} \
-            --env=RUNNER_WORKDIR=${{ inputs.workdir }}/work \
+            --env=RUNNER_WORKDIR=$WORKDIR/work \
             --log-driver=syslog \
             --log-opt=syslog-address=udp://127.0.0.1:55514 \
             --log-opt=syslog-format=rfc5424micro \
@@ -62,5 +55,5 @@ jobs:
             --stop-signal=SIGTERM \
             --stop-timeout=10 \
             --volume /var/run/docker.sock:/var/run/docker.sock \
-            --volume ${{ inputs.workdir }}:${{ inputs.workdir }} \
+            --volume $WORKDIR:$WORKDIR \
               ghcr.io/myoung34/docker-github-actions-runner:debian-bookworm
