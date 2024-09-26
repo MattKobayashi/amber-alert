@@ -52,7 +52,7 @@ jobs:
       # Checkout repository
       # https://github.com/actions/checkout
       - name: Checkout repository
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.0
       # Login against a Docker registry except on PR
       # https://github.com/docker/login-action
       - name: Log into registry ${{ env.REGISTRY }}
