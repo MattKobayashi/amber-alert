@@ -66,10 +66,6 @@ jobs:
               http = true
           driver-opts: |
             network=mattflix
-      # Checkout repository
-      # https://github.com/actions/checkout
-      - name: Checkout repository
-        uses: actions/checkout@v4.2.0
       # Login against a Docker registry except on PR
       # https://github.com/docker/login-action
       - name: Log into registry ${{ env.REGISTRY }}
@@ -90,7 +86,6 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v6.8.0
         with:
-          context: ./${{ matrix.container }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
