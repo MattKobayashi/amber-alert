@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.9](https://github.com/MattKobayashi/amber-alert/compare/v2.0.8...v2.0.9) (2024-09-28)
+
+
+### Bug Fixes
+
+* Try on tag push ([#53](https://github.com/MattKobayashi/amber-alert/issues/53)) ([11a8bdc](https://github.com/MattKobayashi/amber-alert/commit/11a8bdcf938e176893356d14f0c5808522e6a150))
+
 ## [2.0.8](https://github.com/MattKobayashi/amber-alert/compare/v2.0.7...v2.0.8) (2024-09-28)
 
 
