@@ -56,8 +56,22 @@ jobs:
         with:
           load: true
           tags: "${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:test"
+      # Install uuid-runtime package
+      - name: Install `uuid-runtime`
+        run: |
+          set -x
+          apt-get --yes install uuid-runtime
       # Test the built image
       - name: Test image
         run: |
-          set -ex
-          timeout --kill-after=30s --preserve-status 30s docker container run --rm ${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:test
+          set -x
+          CONTAINER_ID="$(uuidgen)"
+          docker container run --attach=stdout --attach=stderr --init --name=$CONTAINER_ID --rm ${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:test &
+          sleep 60
+          docker container stop $CONTAINER_ID
+      # Remove the test image
+      - name: Remove test image
+        if: ${{ !cancelled() }}
+        run: |
+          set -x
+          docker image rm --force ${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:test
