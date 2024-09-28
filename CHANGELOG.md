@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.11](https://github.com/MattKobayashi/amber-alert/compare/v2.0.10...v2.0.11) (2024-09-28)
+
+
+### Bug Fixes
+
+* Add `RP_TOKEN` ([#57](https://github.com/MattKobayashi/amber-alert/issues/57)) ([0e1e6e7](https://github.com/MattKobayashi/amber-alert/commit/0e1e6e7db54c85cea3fe881d5d4e861cc5418bf5))
+
 ## [2.0.10](https://github.com/MattKobayashi/amber-alert/compare/v2.0.9...v2.0.10) (2024-09-28)
 
 
