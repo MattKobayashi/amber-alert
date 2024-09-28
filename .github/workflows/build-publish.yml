@@ -2,7 +2,7 @@
 name: Build and publish container image
 
 on:
-release:
+  release:
     types:
       - published
   workflow_dispatch:
