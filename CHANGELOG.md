@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.7](https://github.com/MattKobayashi/amber-alert/compare/v2.0.6...v2.0.7) (2024-09-28)
+
+
+### Bug Fixes
+
+* Silly YAML ([#50](https://github.com/MattKobayashi/amber-alert/issues/50)) ([cc77e28](https://github.com/MattKobayashi/amber-alert/commit/cc77e280d5c6b84002e3fc1d25de4fb19dcd7928))
+* Try building only on release ([#48](https://github.com/MattKobayashi/amber-alert/issues/48)) ([d8dbbe7](https://github.com/MattKobayashi/amber-alert/commit/d8dbbe7b704212afdf116fa18630a96f2a5ec9ce))
+
 ## [2.0.6](https://github.com/MattKobayashi/amber-alert/compare/v2.0.5...v2.0.6) (2024-09-28)
 
 
