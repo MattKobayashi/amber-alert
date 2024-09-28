@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.8](https://github.com/MattKobayashi/amber-alert/compare/v2.0.7...v2.0.8) (2024-09-28)
+
+
+### Bug Fixes
+
+* Try when a release is created ([#51](https://github.com/MattKobayashi/amber-alert/issues/51)) ([b9e873c](https://github.com/MattKobayashi/amber-alert/commit/b9e873caa12b5a7bb477b6536dc2f924da9a7989))
+
 ## [2.0.7](https://github.com/MattKobayashi/amber-alert/compare/v2.0.6...v2.0.7) (2024-09-28)
 
 
