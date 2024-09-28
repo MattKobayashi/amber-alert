@@ -2,10 +2,14 @@
 name: Build and publish container image
 
 on:
+  release:
+    types:
+      - published
   push:
-    branches: [main]
-    # Publish semver tags as releases.
-    tags: ['v*.*.*']
+    branches:
+      - main
+    tags:
+      - 'v[0-9]+*'
   workflow_dispatch:
 
 env:

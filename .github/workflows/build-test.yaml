@@ -3,7 +3,8 @@ name: Build and test container image
 
 on:
   pull_request:
-    branches: [main]
+    branches:
+      - main
   workflow_dispatch:
 
 env:
