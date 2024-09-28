@@ -4,7 +4,7 @@ name: Build and publish container image
 on:
   release:
     types:
-      - published
+      - created
   workflow_dispatch:
 
 env:
