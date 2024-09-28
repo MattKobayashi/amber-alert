@@ -4,7 +4,7 @@ name: Build and publish container image
 on:
   push:
     tags:
-      - 'v[0-9]+*'
+      - 'v*.*.*'
   workflow_dispatch:
 
 env:
