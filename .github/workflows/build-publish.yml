@@ -2,9 +2,9 @@
 name: Build and publish container image
 
 on:
-  push:
-    tags:
-      - 'v*.*.*'
+  release:
+    types:
+      - published
   workflow_dispatch:
 
 env:

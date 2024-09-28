@@ -22,6 +22,7 @@ jobs:
           # this is a built-in strategy in release-please, see "Action Inputs"
           # for more options
           release-type: simple
+          token: ${{ secrets.RP_TOKEN }}
       - uses: actions/checkout@v4.2.0
       - name: Tag major and minor versions
         if: ${{ steps.release.outputs.release_created }}
