@@ -20,6 +20,7 @@ jobs:
         runner-name: [
           amber-alert
         ]
+      max-parallel: 1
     steps:
       - name: Create self-hosted Actions runner
         uses: MattKobayashi/tailscale-runner-action@v1.0.2
