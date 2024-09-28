@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.10](https://github.com/MattKobayashi/amber-alert/compare/v2.0.9...v2.0.10) (2024-09-28)
+
+
+### Bug Fixes
+
+* It only has to work once ([#55](https://github.com/MattKobayashi/amber-alert/issues/55)) ([168af03](https://github.com/MattKobayashi/amber-alert/commit/168af039ad9ea27f9e1da90eed0e32d9360a1191))
+
 ## [2.0.9](https://github.com/MattKobayashi/amber-alert/compare/v2.0.8...v2.0.9) (2024-09-28)
 
 
