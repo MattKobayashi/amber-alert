@@ -60,7 +60,7 @@ jobs:
       - name: Test image
         run: |
           set -x
-          apt-get install uuid-runtime
+          apt-get install uuid-runtime 1> /dev/null
           CONTAINER_ID="$(uuidgen)"
           docker container run --attach stdout --attach stderr --init --name=$CONTAINER_ID --rm ${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:test &
           sleep 60
