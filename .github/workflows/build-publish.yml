@@ -25,7 +25,7 @@ jobs:
         ]
     steps:
       - name: Create self-hosted Actions runner
-        uses: MattKobayashi/tailscale-runner-action@v1.0.2
+        uses: MattKobayashi/tailscale-runner-action@v1.1.0
         with:
           gh-app-id: ${{ secrets.GH_APP_ID }}
           gh-app-login: MattKobayashi
