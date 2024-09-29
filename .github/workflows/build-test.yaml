@@ -24,14 +24,13 @@ jobs:
       max-parallel: 1
     steps:
       - name: Create self-hosted Actions runner
-        uses: MattKobayashi/tailscale-runner-action@v1.0.2
+        uses: MattKobayashi/tailscale-runner-action@v1.1.0
         with:
           gh-app-id: ${{ secrets.GH_APP_ID }}
           gh-app-login: MattKobayashi
           gh-app-private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           runner-network: mattflix
           ssh-host: 100.102.37.118
-          ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
           ssh-user: matthew
           ts-oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
           ts-oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
