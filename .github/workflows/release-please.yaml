@@ -23,7 +23,7 @@ jobs:
           # for more options
           release-type: simple
           token: ${{ secrets.RP_TOKEN }}
-      - uses: actions/checkout@v4.2.0
+      - uses: actions/checkout@v4.2.1
       - name: Tag major and minor versions
         if: ${{ steps.release.outputs.release_created }}
         run: |
