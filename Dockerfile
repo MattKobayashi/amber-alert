@@ -33,7 +33,6 @@ COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 ENV TZ=UTC \
-    AMBER_API_KEY= \
     AMBER_SITE_ID= \
     WEBHOOK_URL= \
     ALERT_HIGH=25 \
