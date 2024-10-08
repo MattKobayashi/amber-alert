@@ -8,9 +8,10 @@ services:
         image: amber-alert
         container_name: amber-alert
         restart: unless-stopped
+        secrets:
+          - "AMBER_API_KEY="
         environment:
             - "TZ=UTC"
-            - "AMBER_API_KEY="
             - "AMBER_SITE_ID="
             - "WEBHOOK_URL="
             - "ALERT_HIGH=20"
