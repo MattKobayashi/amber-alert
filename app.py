@@ -8,18 +8,23 @@ if not os.path.isfile("data/priceData.json"):
     blankPrice = {"lastPrice": 0}
     with open("data/priceData.json", "w") as file:
         json.dump(blankPrice, file)
-        file.close()
 
 # Read price data from JSON file
 with open("data/priceData.json", "r") as file:
     priceDataFile = json.load(file)
-    file.close()
 
 # Get the current datetime
 now = datetime.now()
 
 # Load environment variables
-apiKey = os.environ.get("AMBER_API_KEY")
+try:
+    with open("/run/secrets/AMBER_API_KEY", "r") as apiKey_secret:
+        apiKey = apiKey_secret.read().strip()
+except FileNotFoundError:
+    raise Exception("API key secret not defined.")
+except Exception as e:
+    raise Exception(f"Error reading API key secret: {e}")
+
 siteId = os.environ.get("AMBER_SITE_ID")
 webhookUrl = os.environ.get("WEBHOOK_URL")
 alertHigh = float(os.environ.get("ALERT_HIGH"))
@@ -32,10 +37,14 @@ apiUrl = (
 )
 
 # Get current price data from the API and parse the JSON
-apiResponse = requests.get(
-    apiUrl, headers={"accept": "application/json", "Authorization": f"Bearer {apiKey}"}
-)
-priceDataApi = json.loads(apiResponse.text)
+try:
+    apiResponse = requests.get(
+        apiUrl, headers={"accept": "application/json", "Authorization": f"Bearer {apiKey}"}
+    )
+    apiResponse.raise_for_status()
+    priceDataApi = apiResponse.json()
+except requests.exceptions.RequestException as e:
+    raise Exception(f"API request failed: {e}")
 
 # Set variables
 currentPrice = float(priceDataApi[0]["perKwh"])
