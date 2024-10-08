@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.12](https://github.com/MattKobayashi/amber-alert/compare/v2.0.11...v2.0.12) (2024-10-08)
+
+
+### Bug Fixes
+
+* Install `supercronic` from Alpine repo ([#72](https://github.com/MattKobayashi/amber-alert/issues/72)) ([8d3b68f](https://github.com/MattKobayashi/amber-alert/commit/8d3b68f7590ed053a87e55a29eaf685ee58542e0))
+* Make API key a Docker secret ([#70](https://github.com/MattKobayashi/amber-alert/issues/70)) ([fe643a5](https://github.com/MattKobayashi/amber-alert/commit/fe643a5741fad777fe83c860e6b905b2442e5cf0))
+
 ## [2.0.11](https://github.com/MattKobayashi/amber-alert/compare/v2.0.10...v2.0.11) (2024-09-28)
 
 
