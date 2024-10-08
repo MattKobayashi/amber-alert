@@ -25,11 +25,16 @@ except FileNotFoundError:
 except Exception as e:
     raise Exception(f"Error reading API key secret: {e}")
 
-siteId = os.environ.get("AMBER_SITE_ID")
-webhookUrl = os.environ.get("WEBHOOK_URL")
-alertHigh = float(os.environ.get("ALERT_HIGH"))
-alertLow = float(os.environ.get("ALERT_LOW"))
-priceRes = os.environ.get("DATA_RES")
+try:
+    siteId = os.environ["AMBER_SITE_ID"]
+    webhookUrl = os.environ["WEBHOOK_URL"]
+    alertHigh = float(os.environ["ALERT_HIGH"])
+    alertLow = float(os.environ["ALERT_LOW"])
+    priceRes = os.environ["DATA_RES"]
+except KeyError as e:
+    raise Exception(f"Missing environment variable: {e}")
+except ValueError as e:
+    raise Exception(f"Invalid value for environment variable: {e}")
 
 # Set the URL for the Amber Electric API
 apiUrl = (
