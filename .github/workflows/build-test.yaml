@@ -24,7 +24,7 @@ jobs:
       max-parallel: 1
     steps:
       - name: Create self-hosted Actions runner
-        uses: MattKobayashi/tailscale-runner-action@v1.1.4
+        uses: MattKobayashi/tailscale-runner-action@v1.1.5
         with:
           gh-app-id: ${{ secrets.GH_APP_ID }}
           gh-app-login: MattKobayashi
