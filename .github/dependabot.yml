@@ -10,7 +10,7 @@ updates:
     commit-message:
       prefix: "fix(deps)"
   - package-ecosystem: "docker"
-    directory: "/"
+    directory: "**/*"
     schedule:
       interval: "daily"
     assignees: 
@@ -18,7 +18,7 @@ updates:
     commit-message:
       prefix: "fix(deps)"
   - package-ecosystem: "pip"
-    directory: "/"
+    directory: "**/*"
     schedule:
       interval: "daily"
     assignees: 
