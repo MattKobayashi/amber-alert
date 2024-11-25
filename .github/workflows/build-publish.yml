@@ -20,17 +20,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runner-name: [
-          amber-alert
-        ]
+        runner-name: [amber-alert]
     steps:
-      - name: Create self-hosted Actions runner
-        uses: MattKobayashi/tailscale-runner-action@v1.2.5
+      - name: Create self-hosted runner
+        uses: MattKobayashi/tailscale-qemu-runner-action@v1.5.0
         with:
-          gh-app-id: ${{ secrets.GH_APP_ID }}
-          gh-app-login: MattKobayashi
-          gh-app-private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
-          runner-network: mattflix
+          gh-api-token: ${{ secrets.GH_API_TOKEN }}
+          gha-runner-apt-mirror: http://au.archive.ubuntu.com/ubuntu/
+          gha-runner-tz: Australia/Brisbane
           ssh-host: 100.102.37.118
           ssh-user: matthew
           ts-oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
@@ -39,7 +36,6 @@ jobs:
   build-publish:
     name: Build and publish container image
     runs-on: self-hosted
-    needs: [create-runner]
     permissions:
       contents: read
       packages: write
@@ -52,14 +48,6 @@ jobs:
       # https://github.com/docker/setup-buildx-action
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3.7.1
-        with:
-          buildkitd-config-inline: |
-            [registry."docker.io"]
-              mirrors = ["registry-mirror:5000"]
-            [registry."registry-mirror:5000"]
-              http = true
-          driver-opts: |
-            network=mattflix
       # Login against a Docker registry except on PR
       # https://github.com/docker/login-action
       - name: Log into registry ${{ env.REGISTRY }}
