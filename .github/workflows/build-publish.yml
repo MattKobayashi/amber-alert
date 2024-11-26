@@ -17,16 +17,12 @@ jobs:
   create-runner:
     name: Create self-hosted Actions runner
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        runner-name: [amber-alert]
     steps:
-      - name: Create self-hosted runner
-        uses: MattKobayashi/tailscale-qemu-runner-action@v1.5.0
+      - name: Create runner
+        uses: MattKobayashi/tailscale-qemu-runner-action@v1.5.1
         with:
           gh-api-token: ${{ secrets.GH_API_TOKEN }}
-          gha-runner-apt-mirror: http://au.archive.ubuntu.com/ubuntu/
+          gha-runner-apt-mirror: http://mirror.overthewire.com.au/ubuntu/
           gha-runner-tz: Australia/Brisbane
           ssh-host: 100.102.37.118
           ssh-user: matthew
