@@ -14,24 +14,25 @@ env:
   IMAGE_NAME: amber-alert
 
 jobs:
-  create-runner:
-    name: Create self-hosted Actions runner
-    runs-on: ubuntu-latest
-    steps:
-      - name: Create runner
-        uses: MattKobayashi/tailscale-qemu-runner-action@v1.7.0
-        with:
-          gh-api-token: ${{ secrets.GH_API_TOKEN }}
-          gha-runner-apt-mirror: http://mirror.overthewire.com.au/ubuntu/
-          gha-runner-tz: Australia/Brisbane
-          ssh-host: 100.102.37.118
-          ssh-user: matthew
-          ts-oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
-          ts-oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
-          ts-tag: ci
+  # create-runner:
+  #   name: Create self-hosted Actions runner
+  #   runs-on: ubuntu-24.04
+  #   steps:
+  #     - name: Create runner
+  #       uses: MattKobayashi/tailscale-qemu-runner-action@v1.7.0
+  #       with:
+  #         gh-api-token: ${{ secrets.GH_API_TOKEN }}
+  #         gha-runner-apt-mirror: http://mirror.overthewire.com.au/ubuntu/
+  #         gha-runner-tz: Australia/Brisbane
+  #         ssh-host: 100.102.37.118
+  #         ssh-user: matthew
+  #         ts-oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+  #         ts-oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+  #         ts-tag: ci
   build-publish:
     name: Build and publish container image
-    runs-on: self-hosted
+    # runs-on: self-hosted
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       packages: write
