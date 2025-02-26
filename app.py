@@ -28,7 +28,7 @@ now = datetime.now()
 try:
     with open("/run/secrets/AMBER_API_KEY", "r", encoding="utf-8") as apiKey_secret:
         apiKey = apiKey_secret.read().strip()
-except FileNotFoundError:
+except FileNotFoundError as e:
     raise Exception("API key secret not defined.") from e
 except Exception as e:
     raise Exception(f"Error reading API key secret: {e}") from e
