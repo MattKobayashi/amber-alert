@@ -1,4 +1,5 @@
 # amber-alert
+
 A webhook-based price alerter for Amber Electric, an Australian electricity retailer that passes through live wholesale pricing directly to customers.
 
 ## How to run

@@ -1,27 +1,25 @@
-version: "3.8"
-
+---
 services:
-    amber-alert:
-        build:
-            context: .
-            dockerfile: Dockerfile
-        image: amber-alert
-        container_name: amber-alert
-        restart: unless-stopped
-        secrets:
-          - "AMBER_API_KEY="
-        environment:
-            - "TZ=UTC"
-            - "AMBER_SITE_ID="
-            - "WEBHOOK_URL="
-            - "ALERT_HIGH=20"
-            - "ALERT_LOW=10"
-            - "DATA_RES=30"
-        volumes:
-            - type: volume
-              source: amber-alert_data
-              target: /opt/amber/data
-
+  amber-alert:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: amber-alert
+    container_name: amber-alert
+    restart: unless-stopped
+    secrets:
+      - "AMBER_API_KEY="
+    environment:
+      - "TZ=UTC"
+      - "AMBER_SITE_ID="
+      - "WEBHOOK_URL="
+      - "ALERT_HIGH=20"
+      - "ALERT_LOW=10"
+      - "DATA_RES=30"
+    volumes:
+      - type: volume
+        source: amber_alert
+        target: /opt/amber/data
 volumes:
-    amber-alert_data:
-        name: amber-alert_data
+  amber_alert:
+    name: amber_alert
