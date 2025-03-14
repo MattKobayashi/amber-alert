@@ -118,10 +118,10 @@ def main():
         requests.post(webhook_url, data=alert_neg_msg)
 
     # Update the last prices to match the current ones
-    price_data_file["last_rice"] = current_price
+    price_data_file["last_price"] = current_price
 
     # Write updated price data to the JSON file
-    with open("data/priceData.json", "w", encoding="utf-8") as file:
+    with open("data/price_data.json", "w", encoding="utf-8") as file:
         json.dump(price_data_file, file)
         file.close()
 
