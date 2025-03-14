@@ -5,7 +5,7 @@ RUN apk add --no-cache supercronic \
     && mkdir -p data \
     && chown amber:amber data \
     && apk --no-cache upgrade \
-    && apk add --no-cache tzdata
+    && apk add --no-cache tzdata uv
 USER amber
 COPY amber-cron ./crontab/amber-cron
 COPY main.py main.py
