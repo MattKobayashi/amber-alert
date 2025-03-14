@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/MattKobayashi/amber-alert/compare/v2.0.12...v2.1.0) (2025-03-14)
+
+
+### Features
+
+* Add comprehensive test suite ([#115](https://github.com/MattKobayashi/amber-alert/issues/115)) ([552f08e](https://github.com/MattKobayashi/amber-alert/commit/552f08ef4989212b8ed86afbb25814974de3a3c9))
+
 ## [2.0.12](https://github.com/MattKobayashi/amber-alert/compare/v2.0.11...v2.0.12) (2024-10-08)
 
 
