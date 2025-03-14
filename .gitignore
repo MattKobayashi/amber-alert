@@ -1,3 +1,5 @@
 *.pkl
 .DS_Store
 .aider*
+uv.lock
+*.pyc
