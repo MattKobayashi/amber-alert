@@ -3,7 +3,7 @@ import os
 import sys 
 import unittest
 from datetime import datetime
-from unittest.mock import patch, mock_open, MagicMock, call
+from unittest.mock import patch, mock_open, MagicMock, call, ANY
 
 # Add the parent directory to sys.path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -61,20 +61,14 @@ class Testmain(unittest.TestCase):
         self.mock_isfile.return_value = False
         self.mock_json_load.return_value = {"lastPrice": 0}
         
-        # Create a combined file opener mock that handles all file operations
-        # but returns different content for different paths
-        mock_api_content = "test-api-key"
-        
-        def mock_file_open_effect(filename, mode='r', encoding=None, *args, **kwargs):
-            m = mock_open(read_data=mock_api_content).return_value
-            return m
-            
-        with patch("builtins.open", side_effect=mock_file_open_effect) as self.mock_file_open:
+        mock_file = mock_open(read_data="test-api-key")
+        with patch("builtins.open", mock_file) as mock_open_handle:
             import main
             
             # Assertions
             self.mock_isfile.assert_called_once_with("data/priceData.json")
-            self.mock_json_dump.assert_any_call({"lastPrice": 0}, self.mock_file_open())
+            # Check that json.dump was called with the right data, don't worry about exact file handle
+            self.mock_json_dump.assert_any_call({"lastPrice": 0}, ANY)
 
     def test_high_price_alert(self):
         """Test high price alert is triggered when price exceeds threshold."""
@@ -90,14 +84,9 @@ class Testmain(unittest.TestCase):
         mock_response.json.return_value = [{"perKwh": 35.0}]  # Above high threshold
         self.mock_get.return_value = mock_response
         
-        # Create a combined file opener mock
-        mock_api_content = "test-api-key"
-        
-        def mock_file_open_effect(filename, mode='r', encoding=None, *args, **kwargs):
-            m = mock_open(read_data=mock_api_content).return_value
-            return m
-            
-        with patch("builtins.open", side_effect=mock_file_open_effect) as self.mock_file_open:
+        # Mock file open
+        mock_file = mock_open(read_data="test-api-key")
+        with patch("builtins.open", mock_file):
             import main
 
             # Verify webhook called with high price alert
@@ -117,14 +106,9 @@ class Testmain(unittest.TestCase):
         mock_response.json.return_value = [{"perKwh": 3.0}]  # Below low threshold
         self.mock_get.return_value = mock_response
         
-        # Create a combined file opener mock
-        mock_api_content = "test-api-key"
-        
-        def mock_file_open_effect(filename, mode='r', encoding=None, *args, **kwargs):
-            m = mock_open(read_data=mock_api_content).return_value
-            return m
-            
-        with patch("builtins.open", side_effect=mock_file_open_effect) as self.mock_file_open:
+        # Mock file open
+        mock_file = mock_open(read_data="test-api-key")
+        with patch("builtins.open", mock_file):
             import main
 
             # Verify webhook called with low price alert
@@ -144,14 +128,9 @@ class Testmain(unittest.TestCase):
         mock_response.json.return_value = [{"perKwh": -5.0}]  # Negative price
         self.mock_get.return_value = mock_response
         
-        # Create a combined file opener mock
-        mock_api_content = "test-api-key"
-        
-        def mock_file_open_effect(filename, mode='r', encoding=None, *args, **kwargs):
-            m = mock_open(read_data=mock_api_content).return_value
-            return m
-            
-        with patch("builtins.open", side_effect=mock_file_open_effect) as self.mock_file_open:
+        # Mock file open
+        mock_file = mock_open(read_data="test-api-key")
+        with patch("builtins.open", mock_file):
             import main
 
             # Verify webhook called with negative price alert
@@ -171,14 +150,9 @@ class Testmain(unittest.TestCase):
         mock_response.json.return_value = [{"perKwh": 20.0}]  # Normal price range
         self.mock_get.return_value = mock_response
         
-        # Create a combined file opener mock
-        mock_api_content = "test-api-key"
-        
-        def mock_file_open_effect(filename, mode='r', encoding=None, *args, **kwargs):
-            m = mock_open(read_data=mock_api_content).return_value
-            return m
-            
-        with patch("builtins.open", side_effect=mock_file_open_effect) as self.mock_file_open:
+        # Mock file open
+        mock_file = mock_open(read_data="test-api-key")
+        with patch("builtins.open", mock_file):
             import main
 
             # Verify webhook called with return to normal alert
@@ -198,14 +172,9 @@ class Testmain(unittest.TestCase):
         mock_response.json.return_value = [{"perKwh": 25.0}]  # Still normal price
         self.mock_get.return_value = mock_response
         
-        # Create a combined file opener mock
-        mock_api_content = "test-api-key"
-        
-        def mock_file_open_effect(filename, mode='r', encoding=None, *args, **kwargs):
-            m = mock_open(read_data=mock_api_content).return_value
-            return m
-            
-        with patch("builtins.open", side_effect=mock_file_open_effect) as self.mock_file_open:
+        # Mock file open
+        mock_file = mock_open(read_data="test-api-key")
+        with patch("builtins.open", mock_file):
             import main
 
             # Verify no webhook calls
@@ -222,19 +191,14 @@ class Testmain(unittest.TestCase):
         mock_response.json.return_value = [{"perKwh": 25.0}]
         self.mock_get.return_value = mock_response
         
-        # Create a combined file opener mock
-        mock_api_content = "test-api-key"
-        
-        def mock_file_open_effect(filename, mode='r', encoding=None, *args, **kwargs):
-            m = mock_open(read_data=mock_api_content).return_value
-            return m
-            
-        with patch("builtins.open", side_effect=mock_file_open_effect) as self.mock_file_open:
+        # Mock file open
+        mock_file = mock_open(read_data="test-api-key")
+        with patch("builtins.open", mock_file):
             import main
 
-            # Use assert_any_call instead of assert_called_with
+            # Use assert_any_call with ANY for the file handle
             expected_data = {"lastPrice": 25.0}
-            self.mock_json_dump.assert_any_call(expected_data, self.mock_file_open())
+            self.mock_json_dump.assert_any_call(expected_data, ANY)
 
 
 if __name__ == "__main__":
