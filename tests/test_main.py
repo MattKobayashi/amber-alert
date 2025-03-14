@@ -67,7 +67,7 @@ class Testmain(unittest.TestCase):
         # Mock the API key file
         api_key_mock = mock_open(read_data="test-api-key")
         file_handler = patch("builtins.open", api_key_mock)
-        
+
         with file_handler:
             # Import and run the app
             if 'main' in sys.modules:
@@ -111,7 +111,7 @@ class Testmain(unittest.TestCase):
         # Mock the API key file
         api_key_mock = mock_open(read_data="test-api-key")
         file_handler = patch("builtins.open", api_key_mock)
-        
+
         with file_handler:
             # Import and run the app
             if 'main' in sys.modules:
@@ -155,7 +155,7 @@ class Testmain(unittest.TestCase):
         # Mock the API key file
         api_key_mock = mock_open(read_data="test-api-key")
         file_handler = patch("builtins.open", api_key_mock)
-        
+
         with file_handler:
             # Import and run the app
             if 'main' in sys.modules:
@@ -199,7 +199,7 @@ class Testmain(unittest.TestCase):
         # Mock the API key file
         api_key_mock = mock_open(read_data="test-api-key")
         file_handler = patch("builtins.open", api_key_mock)
-        
+
         with file_handler:
             # Import and run the app
             if 'main' in sys.modules:
@@ -243,7 +243,7 @@ class Testmain(unittest.TestCase):
         # Mock the API key file
         api_key_mock = mock_open(read_data="test-api-key")
         file_handler = patch("builtins.open", api_key_mock)
-        
+
         with file_handler:
             # Import and run the app
             if 'main' in sys.modules:
@@ -274,20 +274,20 @@ class Testmain(unittest.TestCase):
         # Setup mocks
         mock_isfile.return_value = True
         mock_json_load.return_value = {"lastPrice": 20.0}
-        
+
         # Mock API response
         mock_response = MagicMock()
         mock_response.json.return_value = [{"perKwh": 25.0}]
         mock_get.return_value = mock_response
-        
+
         # Store the mock file handler for later use in assertions
         mock_file = MagicMock()
         mock_file_open.return_value = mock_file
-        
+
         # Create a specific API key file mock that's different
         api_key_mock = mock_open(read_data="test-api-key")
         file_handler = patch("builtins.open", api_key_mock)
-        
+
         with file_handler:
             with patch("requests.post"):
                 # Import and run the app
@@ -297,7 +297,7 @@ class Testmain(unittest.TestCase):
                     importlib.reload(main)
                 else:
                     import main
-        
+
         # Use assert_any_call instead of assert_called_with
         expected_data = {"lastPrice": 25.0}
         mock_json_dump.assert_any_call(expected_data, mock_file_open.return_value)
