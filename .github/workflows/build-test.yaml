@@ -6,9 +6,10 @@ on:
     branches:
       - main
     paths:
-      - '**.py'
-      - 'Dockerfile'
-      - 'requirements.txt'
+      - "**.py"
+      - "Dockerfile"
+      - "requirements.txt"
+      - "**.toml"
   workflow_dispatch:
 
 env:
@@ -48,7 +49,7 @@ jobs:
       - name: Set up Python 3.13
         uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.2.0
         with:
-          python-version: '3.13'
+          python-version: "3.13"
       # Run Python tests
       - name: Run Python tests
         run: |
