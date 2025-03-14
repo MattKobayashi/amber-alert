@@ -22,13 +22,13 @@ class Testmain(unittest.TestCase):
             "ALERT_LOW": "5.0",
             "DATA_RES": "30min"
         })
-        
+
         self.isfile_patcher = patch("os.path.isfile")
         self.json_dump_patcher = patch("json.dump")
         self.json_load_patcher = patch("json.load")
         self.get_patcher = patch("requests.get")
         self.post_patcher = patch("requests.post")
-        
+
         # Start patches
         self.mock_env = self.env_patcher.start()
         self.mock_isfile = self.isfile_patcher.start()
@@ -36,7 +36,7 @@ class Testmain(unittest.TestCase):
         self.mock_json_load = self.json_load_patcher.start()
         self.mock_get = self.get_patcher.start()
         self.mock_post = self.post_patcher.start()
-        
+
         # Clean up any imported modules
         if 'main' in sys.modules:
             del sys.modules['main']
@@ -50,7 +50,7 @@ class Testmain(unittest.TestCase):
         self.json_load_patcher.stop()
         self.get_patcher.stop()
         self.post_patcher.stop()
-        
+
         # Clean up any imported modules
         if 'main' in sys.modules:
             del sys.modules['main']
@@ -60,11 +60,11 @@ class Testmain(unittest.TestCase):
         # Setup
         self.mock_isfile.return_value = False
         self.mock_json_load.return_value = {"lastPrice": 0}
-        
+
         mock_file = mock_open(read_data="test-api-key")
         with patch("builtins.open", mock_file) as mock_open_handle:
             import main
-            
+
             # Assertions
             self.mock_isfile.assert_called_once_with("data/priceData.json")
             # Check that json.dump was called with the right data, don't worry about exact file handle
@@ -75,15 +75,15 @@ class Testmain(unittest.TestCase):
         # Setup
         self.mock_env["ALERT_HIGH"] = "30.0"
         self.mock_env["ALERT_LOW"] = "0.0"
-        
+
         self.mock_isfile.return_value = True
         self.mock_json_load.return_value = {"lastPrice": 20.0}  # Below high threshold
-        
+
         # Mock API response
         mock_response = MagicMock()
         mock_response.json.return_value = [{"perKwh": 35.0}]  # Above high threshold
         self.mock_get.return_value = mock_response
-        
+
         # Mock file open
         mock_file = mock_open(read_data="test-api-key")
         with patch("builtins.open", mock_file):
@@ -100,12 +100,12 @@ class Testmain(unittest.TestCase):
         # Setup
         self.mock_isfile.return_value = True
         self.mock_json_load.return_value = {"lastPrice": 10.0}  # Above low threshold
-        
+
         # Mock API response
         mock_response = MagicMock()
         mock_response.json.return_value = [{"perKwh": 3.0}]  # Below low threshold
         self.mock_get.return_value = mock_response
-        
+
         # Mock file open
         mock_file = mock_open(read_data="test-api-key")
         with patch("builtins.open", mock_file):
@@ -122,12 +122,12 @@ class Testmain(unittest.TestCase):
         # Setup
         self.mock_isfile.return_value = True
         self.mock_json_load.return_value = {"lastPrice": 2.0}  # Positive price
-        
+
         # Mock API response
         mock_response = MagicMock()
         mock_response.json.return_value = [{"perKwh": -5.0}]  # Negative price
         self.mock_get.return_value = mock_response
-        
+
         # Mock file open
         mock_file = mock_open(read_data="test-api-key")
         with patch("builtins.open", mock_file):
@@ -144,12 +144,12 @@ class Testmain(unittest.TestCase):
         # Setup
         self.mock_isfile.return_value = True
         self.mock_json_load.return_value = {"lastPrice": 35.0}  # Above high threshold
-        
+
         # Mock API response
         mock_response = MagicMock()
         mock_response.json.return_value = [{"perKwh": 20.0}]  # Normal price range
         self.mock_get.return_value = mock_response
-        
+
         # Mock file open
         mock_file = mock_open(read_data="test-api-key")
         with patch("builtins.open", mock_file):
@@ -166,12 +166,12 @@ class Testmain(unittest.TestCase):
         # Setup
         self.mock_isfile.return_value = True
         self.mock_json_load.return_value = {"lastPrice": 20.0}  # Normal price
-        
+
         # Mock API response
         mock_response = MagicMock()
         mock_response.json.return_value = [{"perKwh": 25.0}]  # Still normal price
         self.mock_get.return_value = mock_response
-        
+
         # Mock file open
         mock_file = mock_open(read_data="test-api-key")
         with patch("builtins.open", mock_file):
@@ -185,12 +185,12 @@ class Testmain(unittest.TestCase):
         # Setup mocks
         self.mock_isfile.return_value = True
         self.mock_json_load.return_value = {"lastPrice": 20.0}
-        
+
         # Mock API response
         mock_response = MagicMock()
         mock_response.json.return_value = [{"perKwh": 25.0}]
         self.mock_get.return_value = mock_response
-        
+
         # Mock file open
         mock_file = mock_open(read_data="test-api-key")
         with patch("builtins.open", mock_file):
