@@ -1,20 +1,7 @@
 ---
-on:
-  pull_request:
-    branches:
-      - main
-    paths:
-      - "**.py"
-      - "**.toml"
-      - "Dockerfile"
-      - "requirements.txt"
-  workflow_dispatch:
 env:
   REPO_NAME: mattkobayashi
   IMAGE_NAME: amber-alert
-name: Test
-permissions:
-  contents: read
 jobs:
   test:
     name: Test Python and container image build
@@ -67,3 +54,16 @@ jobs:
         run: |
           set -eux
           docker image rm --force ${{ steps.build-export.outputs.imageid }}
+name: Test
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "**.py"
+      - "**.toml"
+      - "Dockerfile"
+      - "requirements.txt"
+  workflow_dispatch:
+permissions:
+  contents: read
