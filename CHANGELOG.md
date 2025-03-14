@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/MattKobayashi/amber-alert/compare/v2.1.0...v2.1.1) (2025-03-14)
+
+
+### Bug Fixes
+
+* Update workflows, Dockerfile, and dependencies to use uv and Python 3.13 ([#120](https://github.com/MattKobayashi/amber-alert/issues/120)) ([c281006](https://github.com/MattKobayashi/amber-alert/commit/c281006c5fd926e608f84bb7d529fd8d2c89c7e5))
+
 ## [2.1.0](https://github.com/MattKobayashi/amber-alert/compare/v2.0.12...v2.1.0) (2025-03-14)
 
 
