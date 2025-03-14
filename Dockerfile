@@ -1,11 +1,11 @@
 FROM python:3.13.2-alpine3.21@sha256:323a717dc4a010fee21e3f1aac738ee10bb485de4e7593ce242b36ee48d6b352
 WORKDIR /opt/amber
-RUN apk add --no-cache supercronic \
+RUN apk --no-cache add supercronic \
     && addgroup -S amber && adduser -S amber -G amber \
     && mkdir -p data \
     && chown amber:amber data \
     && apk --no-cache upgrade \
-    && apk add --no-cache tzdata uv
+    && apk --no-cache add tzdata uv
 USER amber
 COPY amber-cron ./crontab/amber-cron
 COPY main.py main.py
