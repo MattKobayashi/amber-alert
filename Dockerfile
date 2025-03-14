@@ -4,7 +4,6 @@ RUN apk --no-cache add supercronic \
     && addgroup -S amber && adduser -S amber -G amber \
     && mkdir -p data \
     && chown amber:amber data \
-    && apk --no-cache upgrade \
     && apk --no-cache add tzdata uv
 USER amber
 COPY amber-cron ./crontab/amber-cron
