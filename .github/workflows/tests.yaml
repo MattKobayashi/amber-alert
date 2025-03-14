@@ -53,7 +53,7 @@ jobs:
           set -eux
           sudo apt-get --yes install uuid-runtime
           CONTAINER_ID="$(uuidgen)"
-          docker container run --attach=stdout --attach=stderr --init --name=$CONTAINER_ID --rm ${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:test &
+          docker container run --attach=stdout --attach=stderr --name=$CONTAINER_ID --rm ${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:test &
           sleep 5
           docker container stop $CONTAINER_ID
       # Remove the test container image
