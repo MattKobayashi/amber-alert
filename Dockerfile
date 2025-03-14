@@ -12,7 +12,7 @@ RUN apk add --no-cache supercronic \
 USER amber
 
 COPY amber-cron ./crontab/amber-cron
-COPY app.py app.py
+COPY main.py main.py
 COPY requirements.txt requirements.txt
 
 RUN pip install --no-cache-dir -r requirements.txt
