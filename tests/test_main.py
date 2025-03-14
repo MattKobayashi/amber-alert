@@ -69,9 +69,10 @@ class Testmain(unittest.TestCase):
         mock_file = mock_open(read_data="test-api-key")
         with patch("builtins.open", mock_file) as mock_open_handle:
             import main
+            main.main()
 
             # Assertions
-            self.mock_isfile.assert_called_once_with("data/price_data.json")
+            self.mock_isfile.assert_called_with("data/price_data.json")
             # Check that json.dump was called with the right data for initialization
             self.mock_json_dump.assert_any_call({"last_price": 0}, ANY)
 
@@ -93,6 +94,7 @@ class Testmain(unittest.TestCase):
         mock_file = mock_open(read_data="test-api-key")
         with patch("builtins.open", mock_file):
             import main
+            main.main()
 
             # Verify API call with Bearer token
             self.mock_get.assert_called_once()
@@ -120,6 +122,7 @@ class Testmain(unittest.TestCase):
         mock_file = mock_open(read_data="test-api-key")
         with patch("builtins.open", mock_file):
             import main
+            main.main()
 
             # Verify webhook called with low price alert
             self.mock_post.assert_called_once()
@@ -142,6 +145,7 @@ class Testmain(unittest.TestCase):
         mock_file = mock_open(read_data="test-api-key")
         with patch("builtins.open", mock_file):
             import main
+            main.main()
 
             # Verify webhook called with negative price alert
             self.mock_post.assert_called_once()
@@ -164,6 +168,7 @@ class Testmain(unittest.TestCase):
         mock_file = mock_open(read_data="test-api-key")
         with patch("builtins.open", mock_file):
             import main
+            main.main()
 
             # Verify webhook called with return to normal alert
             self.mock_post.assert_called_once()
@@ -186,6 +191,7 @@ class Testmain(unittest.TestCase):
         mock_file = mock_open(read_data="test-api-key")
         with patch("builtins.open", mock_file):
             import main
+            main.main()
 
             # Verify no webhook calls
             self.mock_post.assert_not_called()
@@ -205,10 +211,10 @@ class Testmain(unittest.TestCase):
         mock_file = mock_open(read_data="test-api-key")
         with patch("builtins.open", mock_file):
             import main
+            main.main()
 
-            # Test for the typo bug in main.py - it uses "last_rice" instead of "last_price"
-            # We should test what it actually does, not what it should do
-            expected_data = {"last_rice": 25.0}
+            # Test for update to last_price
+            expected_data = {"last_price": 25.0}
             self.mock_json_dump.assert_any_call(expected_data, ANY)
 
     def test_api_error_handling(self):
@@ -223,8 +229,10 @@ class Testmain(unittest.TestCase):
         # Mock file open
         mock_file = mock_open(read_data="test-api-key")
         with patch("builtins.open", mock_file):
+            import main
+            # Use this pattern to capture exception during call, not import
             with self.assertRaises(Exception) as context:
-                import main
+                main.main()
             
             self.assertIn("API request failed", str(context.exception))
 
@@ -237,11 +245,12 @@ class Testmain(unittest.TestCase):
         def mock_open_effect(*args, **kwargs):
             if args[0] == "/run/secrets/AMBER_API_KEY":
                 raise FileNotFoundError("No such file")
-            return mock_open(read_data="")(args[0])
+            return mock_open(read_data="")(args[0], **kwargs)
             
         with patch("builtins.open", side_effect=mock_open_effect):
+            import main
             with self.assertRaises(Exception) as context:
-                import main
+                main.main()
             
             self.assertIn("API key secret not defined", str(context.exception))
 
@@ -256,8 +265,9 @@ class Testmain(unittest.TestCase):
         # Mock file open
         mock_file = mock_open(read_data="test-api-key")
         with patch("builtins.open", mock_file):
+            import main
             with self.assertRaises(Exception) as context:
-                import main
+                main.main()
             
             self.assertIn("Missing environment variable", str(context.exception))
 
