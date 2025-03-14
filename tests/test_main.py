@@ -72,6 +72,7 @@ class Testmain(unittest.TestCase):
             # Import and run the app
             if 'main' in sys.modules:
                 import importlib
+                import main
                 importlib.reload(main)
             else:
                 import main
@@ -115,6 +116,7 @@ class Testmain(unittest.TestCase):
             # Import and run the app
             if 'main' in sys.modules:
                 import importlib
+                import main
                 importlib.reload(main)
             else:
                 import main
@@ -158,6 +160,7 @@ class Testmain(unittest.TestCase):
             # Import and run the app
             if 'main' in sys.modules:
                 import importlib
+                import main
                 importlib.reload(main)
             else:
                 import main
@@ -201,6 +204,7 @@ class Testmain(unittest.TestCase):
             # Import and run the app
             if 'main' in sys.modules:
                 import importlib
+                import main
                 importlib.reload(main)
             else:
                 import main
@@ -244,6 +248,7 @@ class Testmain(unittest.TestCase):
             # Import and run the app
             if 'main' in sys.modules:
                 import importlib
+                import main
                 importlib.reload(main)
             else:
                 import main
@@ -288,6 +293,7 @@ class Testmain(unittest.TestCase):
                 # Import and run the app
                 if 'main' in sys.modules:
                     import importlib
+                    import main
                     importlib.reload(main)
                 else:
                     import main
