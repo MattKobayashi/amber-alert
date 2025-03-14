@@ -54,7 +54,8 @@ jobs:
       - name: Run Python tests
         run: |
           set -eux
-          python3 -m unittest discover tests
+          pipx install uv
+          uv run python3 -m unittest discover tests
       # Add support for more platforms with QEMU (optional)
       # https://github.com/docker/setup-qemu-action
       - name: Set up QEMU
