@@ -12,9 +12,6 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 class Testmain(unittest.TestCase):
     """Test cases for the Amber Electric price monitoring mainlication."""
 
-    @patch("json.dump")
-    @patch("builtins.open", new_callable=mock_open)
-    @patch("os.path.isfile")
     @patch("os.environ", {
         "AMBER_SITE_ID": "test-site-id",
         "WEBHOOK_URL": "https://test-webhook.com",
@@ -22,7 +19,10 @@ class Testmain(unittest.TestCase):
         "ALERT_LOW": "5.0",
         "DATA_RES": "30min"
     })
-    def test_create_price_data_file(self, mock_env, mock_isfile, mock_file_open, mock_json_dump):
+    @patch("os.path.isfile")
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("json.dump")
+    def test_create_price_data_file(self, mock_json_dump, mock_file_open, mock_isfile, mock_env):
         """Test creation of price data file if it doesn't exist."""
         mock_isfile.return_value = False
 
@@ -39,12 +39,6 @@ class Testmain(unittest.TestCase):
         mock_file_open.assert_called_with("data/priceData.json", "w", encoding="utf-8")
         mock_json_dump.assert_called_with({"lastPrice": 0}, mock_file_open())
 
-    @patch("requests.post")
-    @patch("requests.get")
-    @patch("json.dump")
-    @patch("json.load")
-    @patch("builtins.open", new_callable=mock_open)
-    @patch("os.path.isfile")
     @patch("os.environ", {
         "AMBER_SITE_ID": "test-site-id",
         "WEBHOOK_URL": "https://test-webhook.com",
@@ -52,8 +46,14 @@ class Testmain(unittest.TestCase):
         "ALERT_LOW": "0.0",
         "DATA_RES": "30min"
     })
-    def test_high_price_alert(self, mock_env, mock_isfile, mock_file_open, 
-                              mock_json_load, mock_json_dump, mock_get, mock_post):
+    @patch("os.path.isfile")
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("json.load")
+    @patch("json.dump")
+    @patch("requests.get")
+    @patch("requests.post")
+    def test_high_price_alert(self, mock_post, mock_get, mock_json_dump, 
+                              mock_json_load, mock_file_open, mock_isfile, mock_env):
         """Test high price alert is triggered when price exceeds threshold."""
         # Setup
         mock_isfile.return_value = True
@@ -83,12 +83,6 @@ class Testmain(unittest.TestCase):
         self.assertEqual(args[0], "https://test-webhook.com")
         self.assertIn("Power price is above 30.0c/kWh", kwargs["data"]["content"])
 
-    @patch("requests.post")
-    @patch("requests.get")
-    @patch("json.dump")
-    @patch("json.load")
-    @patch("builtins.open", new_callable=mock_open)
-    @patch("os.path.isfile")
     @patch("os.environ", {
         "AMBER_SITE_ID": "test-site-id",
         "WEBHOOK_URL": "https://test-webhook.com",
@@ -96,8 +90,14 @@ class Testmain(unittest.TestCase):
         "ALERT_LOW": "5.0",
         "DATA_RES": "30min"
     })
-    def test_low_price_alert(self, mock_env, mock_isfile, mock_file_open, 
-                              mock_json_load, mock_json_dump, mock_get, mock_post):
+    @patch("os.path.isfile")
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("json.load")
+    @patch("json.dump")
+    @patch("requests.get")
+    @patch("requests.post")
+    def test_low_price_alert(self, mock_post, mock_get, mock_json_dump, 
+                              mock_json_load, mock_file_open, mock_isfile, mock_env):
         """Test low price alert is triggered when price falls below threshold."""
         # Setup
         mock_isfile.return_value = True
@@ -127,12 +127,6 @@ class Testmain(unittest.TestCase):
         self.assertEqual(args[0], "https://test-webhook.com")
         self.assertIn("Power price is below 5.0c/kWh", kwargs["data"]["content"])
 
-    @patch("requests.post")
-    @patch("requests.get")
-    @patch("json.dump")
-    @patch("json.load")
-    @patch("builtins.open", new_callable=mock_open)
-    @patch("os.path.isfile")
     @patch("os.environ", {
         "AMBER_SITE_ID": "test-site-id",
         "WEBHOOK_URL": "https://test-webhook.com",
@@ -140,8 +134,14 @@ class Testmain(unittest.TestCase):
         "ALERT_LOW": "5.0",
         "DATA_RES": "30min"
     })
-    def test_negative_price_alert(self, mock_env, mock_isfile, mock_file_open, 
-                                  mock_json_load, mock_json_dump, mock_get, mock_post):
+    @patch("os.path.isfile")
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("json.load")
+    @patch("json.dump")
+    @patch("requests.get")
+    @patch("requests.post")
+    def test_negative_price_alert(self, mock_post, mock_get, mock_json_dump, 
+                                  mock_json_load, mock_file_open, mock_isfile, mock_env):
         """Test negative price alert is triggered."""
         # Setup
         mock_isfile.return_value = True
@@ -171,12 +171,6 @@ class Testmain(unittest.TestCase):
         self.assertEqual(args[0], "https://test-webhook.com")
         self.assertIn("Power prices are negative", kwargs["data"]["content"])
 
-    @patch("requests.post")
-    @patch("requests.get")
-    @patch("json.dump")
-    @patch("json.load")
-    @patch("builtins.open", new_callable=mock_open)
-    @patch("os.path.isfile")
     @patch("os.environ", {
         "AMBER_SITE_ID": "test-site-id",
         "WEBHOOK_URL": "https://test-webhook.com",
@@ -184,8 +178,14 @@ class Testmain(unittest.TestCase):
         "ALERT_LOW": "5.0",
         "DATA_RES": "30min"
     })
-    def test_return_to_normal_alert(self, mock_env, mock_isfile, mock_file_open, 
-                                    mock_json_load, mock_json_dump, mock_get, mock_post):
+    @patch("os.path.isfile")
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("json.load")
+    @patch("json.dump")
+    @patch("requests.get")
+    @patch("requests.post")
+    def test_return_to_normal_alert(self, mock_post, mock_get, mock_json_dump, 
+                                    mock_json_load, mock_file_open, mock_isfile, mock_env):
         """Test normal price alert when price returns to normal range."""
         # Setup
         mock_isfile.return_value = True
@@ -215,12 +215,6 @@ class Testmain(unittest.TestCase):
         self.assertEqual(args[0], "https://test-webhook.com")
         self.assertIn("Power prices have returned to normal", kwargs["data"]["content"])
 
-    @patch("requests.post")
-    @patch("requests.get")
-    @patch("json.dump")
-    @patch("json.load")
-    @patch("builtins.open", new_callable=mock_open)
-    @patch("os.path.isfile")
     @patch("os.environ", {
         "AMBER_SITE_ID": "test-site-id",
         "WEBHOOK_URL": "https://test-webhook.com",
@@ -228,8 +222,14 @@ class Testmain(unittest.TestCase):
         "ALERT_LOW": "5.0",
         "DATA_RES": "30min"
     })
-    def test_no_alert_when_price_unchanged(self, mock_env, mock_isfile, mock_file_open, 
-                                           mock_json_load, mock_json_dump, mock_get, mock_post):
+    @patch("os.path.isfile")
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("json.load")
+    @patch("json.dump")
+    @patch("requests.get")
+    @patch("requests.post")
+    def test_no_alert_when_price_unchanged(self, mock_post, mock_get, mock_json_dump, 
+                                           mock_json_load, mock_file_open, mock_isfile, mock_env):
         """Test no alerts are sent when price remains in same category."""
         # Setup
         mock_isfile.return_value = True
@@ -256,11 +256,6 @@ class Testmain(unittest.TestCase):
         # Verify no webhook calls
         mock_post.assert_not_called()
 
-    @patch("requests.get")
-    @patch("json.dump")
-    @patch("json.load")
-    @patch("builtins.open", new_callable=mock_open)
-    @patch("os.path.isfile")
     @patch("os.environ", {
         "AMBER_SITE_ID": "test-site-id",
         "WEBHOOK_URL": "https://test-webhook.com", 
@@ -268,8 +263,13 @@ class Testmain(unittest.TestCase):
         "ALERT_LOW": "5.0",
         "DATA_RES": "30min"
     })
-    def test_price_data_update(self, mock_env, mock_isfile, mock_file_open, 
-                               mock_json_load, mock_json_dump, mock_get):
+    @patch("os.path.isfile")
+    @patch("builtins.open", new_callable=mock_open)
+    @patch("json.load")
+    @patch("json.dump")
+    @patch("requests.get")
+    def test_price_data_update(self, mock_get, mock_json_dump, mock_json_load, 
+                               mock_file_open, mock_isfile, mock_env):
         """Test price data is updated in the JSON file."""
         # Setup mocks
         mock_isfile.return_value = True
