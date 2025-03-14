@@ -15,5 +15,5 @@ ENV TZ=UTC \
     ALERT_LOW=10 \
     DATA_RES=30
 VOLUME ["/opt/amber/data"]
-ENTRYPOINT ["supercronic", "./crontab/amber-cron"]
+ENTRYPOINT ["/usr/bin/supercronic", "./crontab/amber-cron"]
 LABEL org.opencontainers.image.authors="MattKobayashi <matthew@kobayashi.au>"
