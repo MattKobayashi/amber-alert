@@ -1,7 +1,7 @@
 ---
   jobs:
-    image:
-      name: Image
+    publish:
+      name: Publish
       secrets: inherit
       uses: MattKobayashi/actions-workflows/.github/workflows/publish.yaml@27c3f610dca007cad9095926d1aef2cf89083421 # v1.0.3
       with:
