@@ -1,18 +1,17 @@
 ---
-  jobs:
-    publish:
-      name: Publish
-      secrets: inherit
-      uses: MattKobayashi/actions-workflows/.github/workflows/publish.yaml@27c3f610dca007cad9095926d1aef2cf89083421 # v1.0.3
-      with:
-        image-name: amber-alert
-  name: Publish
-  on:
-    release:
-      types:
-        - published
-    workflow_dispatch:
-  permissions:
-    contents: read
-    packages: write
-  
+jobs:
+  publish:
+    name: Publish
+    secrets: inherit
+    uses: MattKobayashi/actions-workflows/.github/workflows/publish.yaml@27c3f610dca007cad9095926d1aef2cf89083421 # v1.0.3
+    with:
+      image-name: amber-alert
+name: Publish
+on:
+  release:
+    types:
+      - published
+  workflow_dispatch:
+permissions:
+  contents: read
+  packages: write
