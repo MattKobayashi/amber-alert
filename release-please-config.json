@@ -1,6 +1,7 @@
 {
   "packages": {
     ".": {
+      "always-update": true,
       "changelog-path": "CHANGELOG.md",
       "release-type": "simple",
       "bump-minor-pre-major": false,
@@ -9,5 +10,5 @@
       "prerelease": false
     }
   },
-  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json"
+  "": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json"
 }
