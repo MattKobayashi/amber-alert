@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.2](https://github.com/MattKobayashi/amber-alert/compare/v2.1.1...v2.1.2) (2025-06-09)
+
+
+### Bug Fixes
+
+* **deps:** update dependency requests to v2.32.4 ([#144](https://github.com/MattKobayashi/amber-alert/issues/144)) ([767e4d3](https://github.com/MattKobayashi/amber-alert/commit/767e4d31ad1a209a426af6c387d8d07d6745125c))
+
 ## [2.1.1](https://github.com/MattKobayashi/amber-alert/compare/v2.1.0...v2.1.1) (2025-03-14)
 
 
