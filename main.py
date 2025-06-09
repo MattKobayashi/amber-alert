@@ -1,7 +1,7 @@
 # /// script
 # requires-python = ">=3.13"
 # dependencies = [
-#     "requests==2.32.3",
+#     "requests==2.32.4",
 # ]
 # ///
 
