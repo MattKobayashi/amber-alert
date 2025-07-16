@@ -1,4 +1,4 @@
-FROM python:3.13.5-alpine@sha256:e08874637f2704667426cb3b8d14581b9cb12dd2c237c8419f65446669443921
+FROM python:3.13.5-alpine@sha256:d005934d99924944e826dc659c749b775965b21968b1ddb10732f738682db869
 WORKDIR /opt/amber
 RUN apk --no-cache add supercronic \
     && addgroup -S amber && adduser -S amber -G amber \
