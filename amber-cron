@@ -1,1 +1,1 @@
-5 */5 * * * * * uv run python3 -u /opt/amber/main.py
+5 */5 * * * * * uv run /opt/amber/main.py

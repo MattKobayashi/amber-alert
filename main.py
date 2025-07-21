@@ -1,10 +1,3 @@
-# /// script
-# requires-python = ">=3.13"
-# dependencies = [
-#     "requests==2.32.4",
-# ]
-# ///
-
 #!/usr/bin/env python3
 import json
 import os
