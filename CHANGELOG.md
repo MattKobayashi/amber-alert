@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.3](https://github.com/MattKobayashi/amber-alert/compare/v2.1.2...v2.1.3) (2025-07-21)
+
+
+### Bug Fixes
+
+* **docker:** use alpine base ([#154](https://github.com/MattKobayashi/amber-alert/issues/154)) ([020d97f](https://github.com/MattKobayashi/amber-alert/commit/020d97f7781c21b9084f7127b0cb602911fac1df))
+
 ## [2.1.2](https://github.com/MattKobayashi/amber-alert/compare/v2.1.1...v2.1.2) (2025-06-09)
 
 
