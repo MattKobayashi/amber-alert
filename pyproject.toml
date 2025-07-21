@@ -1,9 +1,9 @@
 [project]
 name = "amber-alert"
-version = "2.1.1"
+version = "2.1"
 description = "An Amber Electric price alert script"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.13, <3.14"
 dependencies = [
     "requests==2.32.4",
 ]
