@@ -5,5 +5,5 @@ description = "An Amber Electric price alert script"
 readme = "README.md"
 requires-python = ">=3.13, <3.14"
 dependencies = [
-    "requests==2.32.4",
+    "requests==2.32.5",
 ]
