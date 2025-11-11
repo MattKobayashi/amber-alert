@@ -6,10 +6,11 @@ RUN apk --no-cache add \
     tzdata \
     uv
 
+# Supercronic
 # renovate: datasource=github-releases packageName=aptible/supercronic
-ENV SUPERCRONIC_VERSION="v0.2.39"
-ENV SUPERCRONIC="supercronic-linux-amd64"
-ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/${SUPERCRONIC_VERSION}/${SUPERCRONIC}
+ARG SUPERCRONIC_VERSION="v0.2.39"
+ARG SUPERCRONIC="supercronic-linux-amd64"
+ARG SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/${SUPERCRONIC_VERSION}/${SUPERCRONIC}
 RUN export SUPERCRONIC_SHA256SUM=$(curl -fsSL \
     -H "Accept: application/vnd.github+json" \
     -H "X-GitHub-Api-Version: 2022-11-28" \
