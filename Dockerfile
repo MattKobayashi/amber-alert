@@ -1,12 +1,19 @@
 FROM alpine:3.22.2@sha256:4b7ce07002c69e8f3d704a9c5d6fd3053be500b7f1c69fc0d80990c2ad8dd412
 
+# renovate: datasource=repology depName=alpine_3_22/curl
+ARG CURL_VERSION="8.14.1-r2"
+# renovate: datasource=repology depName=alpine_3_22/jq
+ARG JQ_VERSION="1.8.0-r0"
+# renovate: datasource=repology depName=alpine_3_22/tzdata versioning=loose
+ARG TZDATA_VERSION="2025b-r0"
 RUN apk --no-cache add \
-    curl \
-    jq \
-    tzdata \
-    uv
+    curl="${CURL_VERSION}" \
+    jq="${JQ_VERSION}" \
+    tzdata="${TZDATA_VERSION}"
 
-# Supercronic
+# uv
+COPY --from=ghcr.io/astral-sh/uv:0.9.8@sha256:08f409e1d53e77dfb5b65c788491f8ca70fe1d2d459f41c89afa2fcbef998abe /uv /uvx /bin/
+
 # renovate: datasource=github-releases packageName=aptible/supercronic
 ARG SUPERCRONIC_VERSION="v0.2.39"
 ARG SUPERCRONIC="supercronic-linux-amd64"
