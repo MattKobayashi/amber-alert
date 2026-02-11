@@ -10,7 +10,7 @@ RUN apk --no-cache add \
 COPY --from=ghcr.io/astral-sh/uv:0.10.2@sha256:94a23af2d50e97b87b522d3cea24aaf8a1faedec1344c952767434f69585cbf9 /uv /uvx /bin/
 
 # renovate: datasource=github-releases packageName=aptible/supercronic
-ARG SUPERCRONIC_VERSION="v0.2.42"
+ARG SUPERCRONIC_VERSION="v0.2.43"
 ARG SUPERCRONIC="supercronic-linux-amd64"
 ARG SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/${SUPERCRONIC_VERSION}/${SUPERCRONIC}
 RUN export SUPERCRONIC_SHA256SUM=$(curl -fsSL \
