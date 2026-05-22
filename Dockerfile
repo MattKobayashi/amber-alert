@@ -7,7 +7,7 @@ RUN apk --no-cache add \
     tzdata
 
 # uv
-COPY --from=ghcr.io/astral-sh/uv:0.11.15@sha256:e590846f4776907b254ac0f44b5b380347af5d90d668138ca7938d1b0c2f98d3 /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:0.11.16@sha256:440fd6477af86a2f1b38080c539f1672cd22acb1b1a47e321dba5158ab08864d /uv /uvx /bin/
 
 # renovate: datasource=github-releases packageName=aptible/supercronic
 ARG SUPERCRONIC_VERSION="v0.2.45"
